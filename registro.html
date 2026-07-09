@@ -73,6 +73,25 @@
     text-align: center; font-size: .72rem; color: var(--on-surface-muted);
     margin-top: 18px; line-height: 1.5;
   }
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7);
+    z-index: 100; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: var(--surface-container); border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg); padding: 28px 24px; max-width: 340px; width: 100%;
+    text-align: center;
+  }
+  .modal-box .icon { font-size: 2.5rem; margin-bottom: 12px; }
+  .modal-box h3 { font-size: 1rem; font-weight: 600; margin: 0 0 10px; }
+  .modal-box p { font-size: .82rem; color: var(--on-surface-muted); line-height: 1.6; margin: 0 0 18px; }
+  .modal-box .step { font-size: .85rem; color: var(--on-surface); line-height: 1.8; text-align: left; margin: 0 0 18px; }
+  .modal-box button {
+    margin-top: 0; width: 100%; padding: 13px; border: none; border-radius: var(--radius-sm);
+    background: linear-gradient(135deg,#c47b00,#f9ba82); color: #2f1a00; font-weight: 700;
+    font-size: .92rem; cursor: pointer;
+  }
 </style>
 </head>
 <body>
@@ -105,6 +124,20 @@
   </div>
 </div>
 
+<div class="modal-overlay" id="modalIos">
+  <div class="modal-box">
+    <div class="icon">📲</div>
+    <h3>Agrega Barber 33 a tu inicio</h3>
+    <p>Para acceder rápido a tu tarjeta, agrégala como app:</p>
+    <div class="step">
+      1. Toca el botón <strong>Compartir</strong> <span style="font-size:1.1em;">⬆</span> (abajo)<br>
+      2. Baja y toca <strong>"Agregar a inicio"</strong><br>
+      3. Toca <strong>"Agregar"</strong> arriba a la derecha
+    </div>
+    <button onclick="cerrarModalYNavegar()">Entendido, ir a mi tarjeta</button>
+  </div>
+</div>
+
 <script>
   const STORAGE_KEY = 'barber33_cliente';
 
@@ -128,6 +161,23 @@
     navigator.serviceWorker.register('sw.js');
   }
 
+  // ── PWA install prompt ──
+  let deferredPrompt = null;
+  let urlNavegar = '';
+  const esIos = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  const esStandalone = window.matchMedia('(display-mode: standalone)').matches
+    || window.navigator.standalone === true;
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  function cerrarModalYNavegar() {
+    document.getElementById('modalIos').classList.remove('show');
+    if (urlNavegar) window.location.replace(urlNavegar);
+  }
+
   function crearTarjeta() {
     const nombre = document.getElementById('fNombre').value.trim();
     if (!nombre) { alert('Escribe tu nombre para crear tu tarjeta.'); return; }
@@ -138,7 +188,31 @@
     if (tel) params.set('tel', tel);
     if (cumple) params.set('cumple', cumple);
 
-    const navegar = () => window.location.replace(`tarjeta.html?${params.toString()}`);
+    function irATarjeta() {
+      const destino = `tarjeta.html?${params.toString()}`;
+
+      if (esStandalone) {
+        window.location.replace(destino);
+        return;
+      }
+
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => {
+          deferredPrompt = null;
+          window.location.replace(destino);
+        });
+        return;
+      }
+
+      if (esIos) {
+        urlNavegar = destino;
+        document.getElementById('modalIos').classList.add('show');
+        return;
+      }
+
+      window.location.replace(destino);
+    }
 
     const url = BARBER33_CONFIG.servidorUrl;
     if (url && tel) {
@@ -155,11 +229,11 @@
           params.set('canjeados', res.canjeados);
           if (res.cumple) params.set('cumple', res.cumple);
         }
-        navegar();
+        irATarjeta();
       })
-      .catch(() => navegar());
+      .catch(() => irATarjeta());
     } else {
-      navegar();
+      irATarjeta();
     }
   }
 </script>
