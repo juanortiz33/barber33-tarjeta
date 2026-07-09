@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mi Tarjeta de Lealtad — Barber 33</title>
+<link rel="icon" href="data:,">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="config.js"></script>
+<style>
+  :root {
+    --surface:            #131313;
+    --surface-low:        #1c1b1b;
+    --surface-container:  #201f1f;
+    --surface-high:       #2a2a2a;
+    --surface-highest:    #353534;
+
+    --primary:            #c6c6c6;
+    --on-primary:         #2f3131;
+
+    --secondary:              #f9ba82;
+    --secondary-container:    #683d0f;
+    --on-secondary-container: #e6a872;
+
+    --on-surface:         #f0edec;
+    --on-surface-variant: #c8cace;
+    --on-surface-muted:   #a8aab0;
+    --outline-variant:    #45474a;
+
+    --radius-sm: 0.375rem;
+    --radius-md: 0.75rem;
+    --radius-lg: 1rem;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--surface);
+    color: var(--on-surface);
+    font-family: 'Manrope', sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 28px 16px 40px;
+  }
+
+  .wrap { width: 100%; max-width: 420px; }
+
+  .brand {
+    text-align: center;
+    margin-bottom: 18px;
+  }
+  .brand .mark {
+    font-family: 'Newsreader', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    color: var(--on-surface);
+  }
+  .brand .sub {
+    font-size: .72rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--on-surface-muted);
+    margin-top: 2px;
+  }
+
+  .card {
+    background: var(--surface-container);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+  }
+
+  .cliente-nombre {
+    font-family: 'Newsreader', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  .cliente-tel {
+    color: var(--on-surface-muted);
+    font-size: .82rem;
+    margin-top: 2px;
+  }
+  .cliente-cumple {
+    color: var(--on-surface-muted);
+    font-size: .82rem;
+    margin-top: 2px;
+  }
+  .cumple-hoy {
+    display: inline-block;
+    margin-top: 8px;
+    background: linear-gradient(135deg,#c47b00,#f9ba82);
+    color: #2f1a00;
+    padding: 5px 14px;
+    border-radius: 99px;
+    font-size: .78rem;
+    font-weight: 700;
+  }
+
+  .badge-gratis {
+    display: inline-block;
+    margin-top: 10px;
+    background: linear-gradient(135deg,#1a6e3e,#2ecc71);
+    color: #fff;
+    padding: 5px 14px;
+    border-radius: 99px;
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+  }
+
+  .stamp-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 18px 0 6px;
+  }
+  .stamp {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.05rem;
+    border: 2px solid var(--outline-variant);
+    background: rgba(255,255,255,.04);
+    color: rgba(255,255,255,.25);
+  }
+  .stamp.filled {
+    background: var(--secondary-container);
+    border-color: var(--secondary);
+    color: var(--secondary);
+  }
+  .stamp.gratis {
+    background: linear-gradient(135deg,#1a6e3e,#2ecc71);
+    border-color: #2ecc71;
+    font-size: .68rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: .78rem;
+    color: var(--on-surface-variant);
+    margin-top: 14px;
+  }
+  .progress-track {
+    height: 8px;
+    border-radius: 99px;
+    background: rgba(255,255,255,.08);
+    overflow: hidden;
+    margin-top: 6px;
+  }
+  .progress-bar {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg,#b8690a,#f9ba82);
+    transition: width .5s ease;
+  }
+  .progress-bar.done { background: linear-gradient(90deg,#1a6e3e,#2ecc71); }
+
+  .mensaje {
+    margin-top: 14px;
+    font-size: .88rem;
+    color: var(--on-surface-variant);
+    line-height: 1.4;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .stat {
+    background: var(--surface-high);
+    border-radius: var(--radius-md);
+    padding: 12px 8px;
+    text-align: center;
+  }
+  .stat .num {
+    font-family: 'Newsreader', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  .stat .lbl {
+    font-size: .68rem;
+    color: var(--on-surface-muted);
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    margin-top: 2px;
+  }
+
+  .actions { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 13px 16px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: .92rem;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg,#25D366,#1fb355);
+    color: #0b2415;
+  }
+  .btn-outline {
+    background: transparent;
+    border-color: var(--outline-variant);
+    color: var(--on-surface);
+  }
+
+  .footnote {
+    text-align: center;
+    font-size: .72rem;
+    color: var(--on-surface-muted);
+    margin-top: 18px;
+    line-height: 1.5;
+  }
+
+  .staff-zone {
+    margin-top: 18px;
+    text-align: center;
+  }
+  .staff-link {
+    background: none;
+    border: none;
+    color: var(--on-surface-muted);
+    font-size: .72rem;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .staff-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .staff-actions .btn {
+    flex: 1;
+    font-size: .82rem;
+    padding: 10px;
+  }
+
+  .demo-tag {
+    display: block;
+    text-align: center;
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #f5c518;
+    background: rgba(245,197,24,.12);
+    border: 1px solid rgba(245,197,24,.3);
+    border-radius: 99px;
+    padding: 4px 10px;
+    margin: 0 auto 16px;
+    width: fit-content;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="mark" id="negocioNombre">BARBER 33</div>
+      <div class="sub">Tarjeta de Lealtad Digital</div>
+    </div>
+
+    <div id="demoTag" class="demo-tag" style="display:none;">Vista de prueba — datos de ejemplo</div>
+
+    <div class="card">
+      <div class="cliente-nombre" id="clienteNombre">—</div>
+      <div class="cliente-tel" id="clienteTel"></div>
+      <div class="cliente-cumple" id="clienteCumple"></div>
+      <div id="badgeCumple"></div>
+      <div id="badgeGratis"></div>
+
+      <div class="stamp-row" id="stampRow"></div>
+
+      <div class="progress-label">
+        <span id="progresoTexto">0 / 0</span>
+        <span id="porcentajeTexto">0%</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" id="progressBar" style="width:0%"></div>
+      </div>
+
+      <div class="mensaje" id="mensajeEstado"></div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="num" id="statPagados">0</div>
+          <div class="lbl">Cortes</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="statCanjeados">0</div>
+          <div class="lbl">Canjeados</div>
+        </div>
+        <div class="stat">
+          <div class="num" id="statDisponibles">0</div>
+          <div class="lbl">Gratis hoy</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn btn-primary" id="btnAgendar" href="#" target="_blank" rel="noopener">
+          📅 Agendar cita por WhatsApp
+        </a>
+        <a class="btn btn-outline" id="btnContacto" href="#" target="_blank" rel="noopener">
+          💬 Escribir por WhatsApp
+        </a>
+      </div>
+
+      <div class="staff-zone">
+        <button class="staff-link" id="btnStaffToggle">Panel del barbero</button>
+        <div class="staff-actions" id="staffActions" style="display:none;">
+          <button class="btn btn-outline" id="btnSumar">➕ Sumar 1 corte</button>
+          <button class="btn btn-outline" id="btnCanjear">🎁 Canjear gratis</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footnote">
+      Muestra esta pantalla a tu barbero para sumar o canjear un sello.<br>
+      Guarda esta página en tu inicio para acceder más rápido la próxima vez.
+    </div>
+  </div>
+
+<script>
+  const STORAGE_KEY = 'barber33_cliente';
+
+  // ── Misma regla de negocio que TarjetaLealtad en models.py ─────
+  // Ciclo 1: primeros 5 pagados -> 6to gratis
+  // Ciclo 2+: cada 10 pagados adicionales -> 1 gratis
+  function gratisGanados(p) {
+    if (p < 5) return 0;
+    return 1 + Math.floor((p - 5) / 10);
+  }
+  function gratisDisponibles(p, c) {
+    return Math.max(0, gratisGanados(p) - c);
+  }
+  function progresoActual(p, c) {
+    const disp = gratisDisponibles(p, c);
+    if (disp > 0) {
+      const meta = c === 0 ? 5 : 10;
+      return { progreso: meta, meta, falta: 0 };
+    }
+    if (c === 0) {
+      return { progreso: p, meta: 5, falta: Math.max(0, 5 - p) };
+    }
+    const inicio = 5 + (c - 1) * 10;
+    const progreso = Math.max(0, p - inicio);
+    const falta = Math.max(0, 10 - progreso);
+    return { progreso, meta: 10, falta };
+  }
+
+  // ── Siembra localStorage desde la URL UNA sola vez al cargar la página,
+  //    y limpia la URL para que un refresh o una acción del staff no vuelvan
+  //    a pisar los datos guardados con los valores (viejos) de la URL. ──
+  (function sembrarDesdeUrl() {
+    const params = new URLSearchParams(window.location.search);
+    if (!params.has('nombre')) return;
+    const data = {
+      nombre: params.get('nombre'),
+      tel: params.get('tel') || '',
+      cumple: params.get('cumple') || '',
+      pagados: Math.max(0, parseInt(params.get('pagados')) || 0),
+      canjeados: Math.max(0, parseInt(params.get('canjeados')) || 0),
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    history.replaceState({}, '', window.location.pathname);
+  })();
+
+  // ── Estado del cliente: localStorage; si no existe, tarjeta de demo ──
+  function cargarEstado() {
+    const guardado = localStorage.getItem(STORAGE_KEY);
+    if (guardado) {
+      return { data: JSON.parse(guardado), esDemo: false };
+    }
+    return {
+      data: { nombre: 'Cliente Demo', tel: '', pagados: 7, canjeados: 0 },
+      esDemo: true,
+    };
+  }
+
+  function guardarEstado(data) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  }
+
+  // ── Render ───────────────────────────────────────────────────
+  function render() {
+    const { data, esDemo } = cargarEstado();
+    const { nombre, tel: telefono, cumple, pagados, canjeados } = data;
+
+    const disponibles = gratisDisponibles(pagados, canjeados);
+    const { progreso, meta, falta } = progresoActual(pagados, canjeados);
+    const porcentaje = meta ? Math.round((progreso / meta) * 100) : 0;
+
+    document.getElementById('negocioNombre').textContent = (BARBER33_CONFIG.nombreNegocio || 'Barber 33').toUpperCase();
+    document.getElementById('demoTag').style.display = esDemo ? 'block' : 'none';
+    document.getElementById('clienteNombre').textContent = nombre;
+    document.getElementById('clienteTel').textContent = telefono ? `📱 ${telefono}` : '';
+
+    if (cumple) {
+      const [y, m, d] = cumple.split('-').map(Number);
+      const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      document.getElementById('clienteCumple').textContent = `🎂 ${d} ${meses[m - 1]}`;
+      const hoy = new Date();
+      const esCumple = hoy.getDate() === d && (hoy.getMonth() + 1) === m;
+      document.getElementById('badgeCumple').innerHTML = esCumple
+        ? '<span class="cumple-hoy">🎉 ¡Feliz cumpleaños!</span>' : '';
+    } else {
+      document.getElementById('clienteCumple').textContent = '';
+      document.getElementById('badgeCumple').innerHTML = '';
+    }
+
+    document.getElementById('badgeGratis').innerHTML = disponibles > 0
+      ? `<span class="badge-gratis">🎉 ${disponibles} servicio${disponibles > 1 ? 's' : ''} GRATIS disponible${disponibles > 1 ? 's' : ''}</span>`
+      : '';
+
+    const stampRow = document.getElementById('stampRow');
+    stampRow.innerHTML = '';
+    for (let i = 1; i <= meta; i++) {
+      const el = document.createElement('div');
+      if (disponibles > 0) {
+        el.className = 'stamp gratis';
+        el.textContent = 'GRATIS';
+      } else if (i <= progreso) {
+        el.className = 'stamp filled';
+        el.textContent = '✓';
+      } else {
+        el.className = 'stamp';
+        el.textContent = '✂';
+      }
+      stampRow.appendChild(el);
+    }
+
+    document.getElementById('progresoTexto').textContent = `${progreso} / ${meta} cortes`;
+    document.getElementById('porcentajeTexto').textContent = `${porcentaje}%`;
+    const bar = document.getElementById('progressBar');
+    bar.style.width = porcentaje + '%';
+    bar.classList.toggle('done', disponibles > 0);
+
+    document.getElementById('mensajeEstado').textContent = disponibles > 0
+      ? '¡Tu próximo corte es gratis! Muestra esta pantalla a tu barbero para canjearlo.'
+      : `Te falta${falta === 1 ? '' : 'n'} ${falta} corte${falta === 1 ? '' : 's'} para tu próximo servicio GRATIS.`;
+
+    document.getElementById('statPagados').textContent = pagados;
+    document.getElementById('statCanjeados').textContent = canjeados;
+    document.getElementById('statDisponibles').textContent = disponibles;
+
+    const numero = (BARBER33_CONFIG.whatsappNumero || '').replace(/\D/g, '');
+    document.getElementById('btnAgendar').href =
+      `https://wa.me/${numero}?text=${encodeURIComponent(BARBER33_CONFIG.mensajeAgendar(nombre))}`;
+    document.getElementById('btnContacto').href =
+      `https://wa.me/${numero}?text=${encodeURIComponent(BARBER33_CONFIG.mensajeContacto(nombre))}`;
+
+    document.getElementById('btnCanjear').disabled = disponibles <= 0;
+
+    return { data, esDemo };
+  }
+
+  // ── Panel del barbero (protegido con PIN) ───────────────────────
+  let staffAutorizado = false;
+
+  document.getElementById('btnStaffToggle').addEventListener('click', () => {
+    if (staffAutorizado) {
+      document.getElementById('staffActions').style.display =
+        document.getElementById('staffActions').style.display === 'none' ? 'flex' : 'none';
+      return;
+    }
+    const pin = prompt('PIN del barbero:');
+    if (pin === null) return;
+    if (pin === BARBER33_CONFIG.staffPin) {
+      staffAutorizado = true;
+      document.getElementById('staffActions').style.display = 'flex';
+    } else {
+      alert('PIN incorrecto.');
+    }
+  });
+
+  document.getElementById('btnSumar').addEventListener('click', () => {
+    const { data, esDemo } = cargarEstado();
+    if (esDemo) { alert('Esta es una tarjeta de demostración. Escanea el QR de recepción para crear una real.'); return; }
+    data.pagados += 1;
+    guardarEstado(data);
+    render();
+  });
+
+  document.getElementById('btnCanjear').addEventListener('click', () => {
+    const { data, esDemo } = cargarEstado();
+    if (esDemo) { alert('Esta es una tarjeta de demostración. Escanea el QR de recepción para crear una real.'); return; }
+    if (gratisDisponibles(data.pagados, data.canjeados) <= 0) return;
+    data.canjeados += 1;
+    guardarEstado(data);
+    render();
+  });
+
+  render();
+</script>
+</body>
+</html>
