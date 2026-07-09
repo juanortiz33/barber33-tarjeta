@@ -4,7 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Mi Tarjeta de Lealtad — Barber 33</title>
-<link rel="icon" href="data:,">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#131313">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Barber 33">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;0,700;1,400&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script src="config.js"></script>
 <style>
@@ -324,12 +330,21 @@
     </div>
 
     <div class="footnote">
-      Muestra esta pantalla a tu barbero para sumar o canjear un sello.<br>
-      Guarda esta página en tu inicio para acceder más rápido la próxima vez.
+      Muestra esta pantalla a tu barbero para sumar o canjear un sello.
+    </div>
+
+    <div id="installBanner" style="margin-top:14px; background:var(--surface-container); border:1px solid var(--outline-variant); border-radius:var(--radius-lg); padding:16px; text-align:center; display:none;">
+      <div style="font-size:.88rem; font-weight:600; margin-bottom:6px;">📲 Agrega Barber 33 a tu inicio</div>
+      <div style="font-size:.75rem; color:var(--on-surface-muted); line-height:1.5;" id="installInstructions"></div>
+      <button id="btnInstallPwa" style="display:none; margin-top:10px; width:100%; padding:12px; border:none; border-radius:var(--radius-sm); background:linear-gradient(135deg,#c47b00,#f9ba82); color:#2f1a00; font-weight:700; font-size:.88rem; cursor:pointer;">Instalar Barber 33</button>
     </div>
   </div>
 
 <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+
   const STORAGE_KEY = 'barber33_cliente';
 
   // ── Misma regla de negocio que TarjetaLealtad en models.py ─────
@@ -500,6 +515,45 @@
   });
 
   render();
+
+  // ── Instalar PWA / Agregar a inicio ─────────────────────────
+  let deferredPrompt = null;
+  const banner = document.getElementById('installBanner');
+  const btnInstall = document.getElementById('btnInstallPwa');
+  const instructions = document.getElementById('installInstructions');
+
+  const isStandalone = window.matchMedia('(display-mode: standalone)').matches
+    || window.navigator.standalone === true;
+
+  if (!isStandalone) {
+    banner.style.display = 'block';
+    const ua = navigator.userAgent;
+    if (/iPhone|iPad|iPod/.test(ua)) {
+      instructions.innerHTML = 'Toca el botón <strong>Compartir</strong> (el cuadrito con flecha ↑) y luego <strong>"Agregar a pantalla de inicio"</strong>.';
+    } else {
+      instructions.textContent = 'Toca el menú (⋮) de tu navegador y selecciona "Agregar a pantalla de inicio".';
+    }
+  }
+
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredPrompt = e;
+    instructions.style.display = 'none';
+    btnInstall.style.display = 'block';
+  });
+
+  btnInstall.addEventListener('click', () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      banner.style.display = 'none';
+    });
+  });
+
+  window.addEventListener('appinstalled', () => {
+    banner.style.display = 'none';
+  });
 </script>
 </body>
 </html>
