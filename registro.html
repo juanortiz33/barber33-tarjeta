@@ -132,14 +132,35 @@
     const nombre = document.getElementById('fNombre').value.trim();
     if (!nombre) { alert('Escribe tu nombre para crear tu tarjeta.'); return; }
     const tel = document.getElementById('fTel').value.trim();
-
     const cumple = document.getElementById('fCumple').value;
 
     const params = new URLSearchParams({ nombre, pagados: '0', canjeados: '0' });
     if (tel) params.set('tel', tel);
     if (cumple) params.set('cumple', cumple);
 
-    window.location.replace(`tarjeta.html?${params.toString()}`);
+    const navegar = () => window.location.replace(`tarjeta.html?${params.toString()}`);
+
+    const url = BARBER33_CONFIG.servidorUrl;
+    if (url && tel) {
+      fetch(`${url}/api/tarjeta-digital/registro`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, tel, cumple }),
+        signal: AbortSignal.timeout(4000),
+      })
+      .then(r => r.json())
+      .then(res => {
+        if (res.ok) {
+          params.set('pagados', res.pagados);
+          params.set('canjeados', res.canjeados);
+          if (res.cumple) params.set('cumple', res.cumple);
+        }
+        navegar();
+      })
+      .catch(() => navegar());
+    } else {
+      navegar();
+    }
   }
 </script>
 </body>

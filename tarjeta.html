@@ -329,6 +329,8 @@
       </div>
     </div>
 
+    <div id="syncStatus" style="display:none; text-align:center; font-size:.72rem; color:#2ecc71; margin-top:12px;"></div>
+
     <div class="footnote">
       Muestra esta pantalla a tu barbero para sumar o canjear un sello.
     </div>
@@ -515,6 +517,31 @@
   });
 
   render();
+
+  // ── Sincronizar con servidor Flask (cuando hay WiFi del negocio) ──
+  function sincronizar() {
+    const { data, esDemo } = cargarEstado();
+    if (esDemo || !data.tel) return;
+    const url = BARBER33_CONFIG.servidorUrl;
+    if (!url) return;
+    fetch(`${url}/api/tarjeta-digital/consulta?tel=${encodeURIComponent(data.tel)}`, {
+      signal: AbortSignal.timeout(4000),
+    })
+    .then(r => r.json())
+    .then(res => {
+      if (!res.ok) return;
+      data.nombre = res.nombre || data.nombre;
+      data.pagados = res.pagados;
+      data.canjeados = res.canjeados;
+      if (res.cumple) data.cumple = res.cumple;
+      guardarEstado(data);
+      render();
+      document.getElementById('syncStatus').textContent = '✓ Sincronizado con la barbería';
+      document.getElementById('syncStatus').style.display = 'block';
+    })
+    .catch(() => {});
+  }
+  sincronizar();
 
   // ── Instalar PWA / Agregar a inicio ─────────────────────────
   let deferredPrompt = null;
