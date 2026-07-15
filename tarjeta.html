@@ -422,7 +422,9 @@
     document.getElementById('clienteTel').textContent = telefono ? `📱 ${telefono}` : '';
 
     if (cumple) {
-      const [y, m, d] = cumple.split('-').map(Number);
+      const parts = cumple.split('-').map(Number);
+      const m = parts.length === 3 ? parts[1] : parts[0];
+      const d = parts.length === 3 ? parts[2] : parts[1];
       const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
       document.getElementById('clienteCumple').textContent = `🎂 ${d} ${meses[m - 1]}`;
       const hoy = new Date();
@@ -522,24 +524,25 @@
   function sincronizar() {
     const { data, esDemo } = cargarEstado();
     if (esDemo || !data.tel) return;
-    const url = BARBER33_CONFIG.servidorUrl;
-    if (!url) return;
-    fetch(`${url}/api/tarjeta-digital/consulta?tel=${encodeURIComponent(data.tel)}`, {
-      signal: AbortSignal.timeout(4000),
-    })
-    .then(r => r.json())
-    .then(res => {
-      if (!res.ok) return;
-      data.nombre = res.nombre || data.nombre;
-      data.pagados = res.pagados;
-      data.canjeados = res.canjeados;
-      if (res.cumple) data.cumple = res.cumple;
-      guardarEstado(data);
-      render();
-      document.getElementById('syncStatus').textContent = '✓ Sincronizado con la barbería';
-      document.getElementById('syncStatus').style.display = 'block';
-    })
-    .catch(() => {});
+    BARBER33_CONFIG.detectarServidor().then(url => {
+      if (!url) return;
+      fetch(`${url}/api/tarjeta-digital/consulta?tel=${encodeURIComponent(data.tel)}`, {
+        signal: AbortSignal.timeout(4000),
+      })
+      .then(r => r.json())
+      .then(res => {
+        if (!res.ok) return;
+        data.nombre = res.nombre || data.nombre;
+        data.pagados = res.pagados;
+        data.canjeados = res.canjeados;
+        if (res.cumple) data.cumple = res.cumple;
+        guardarEstado(data);
+        render();
+        document.getElementById('syncStatus').textContent = '✓ Sincronizado con la barbería';
+        document.getElementById('syncStatus').style.display = 'block';
+      })
+      .catch(() => {});
+    });
   }
   sincronizar();
 

@@ -74,23 +74,34 @@
     margin-top: 18px; line-height: 1.5;
   }
   .modal-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7);
-    z-index: 100; align-items: center; justify-content: center; padding: 24px;
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.82);
+    z-index: 100; align-items: center; justify-content: center; padding: 20px;
+    animation: fadeIn .25s;
   }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
   .modal-overlay.show { display: flex; }
   .modal-box {
     background: var(--surface-container); border: 1px solid var(--outline-variant);
-    border-radius: var(--radius-lg); padding: 28px 24px; max-width: 340px; width: 100%;
-    text-align: center;
+    border-radius: var(--radius-lg); padding: 28px 22px; max-width: 360px; width: 100%;
+    text-align: center; max-height: 90vh; overflow-y: auto;
   }
-  .modal-box .icon { font-size: 2.5rem; margin-bottom: 12px; }
-  .modal-box h3 { font-size: 1rem; font-weight: 600; margin: 0 0 10px; }
-  .modal-box p { font-size: .82rem; color: var(--on-surface-muted); line-height: 1.6; margin: 0 0 18px; }
-  .modal-box .step { font-size: .85rem; color: var(--on-surface); line-height: 1.8; text-align: left; margin: 0 0 18px; }
+  .modal-box .icon { font-size: 2.5rem; margin-bottom: 10px; }
+  .modal-box h3 { font-size: 1.05rem; font-weight: 700; margin: 0 0 8px; }
+  .modal-box p { font-size: .82rem; color: var(--on-surface-muted); line-height: 1.6; margin: 0 0 16px; }
+  .modal-box .step {
+    font-size: .88rem; color: var(--on-surface); line-height: 1.9; text-align: left;
+    margin: 0 0 18px; background: var(--surface-high); border-radius: var(--radius-md);
+    padding: 16px 18px;
+  }
+  .modal-box .step strong { color: var(--secondary); }
   .modal-box button {
-    margin-top: 0; width: 100%; padding: 13px; border: none; border-radius: var(--radius-sm);
+    margin-top: 0; width: 100%; padding: 14px; border: none; border-radius: var(--radius-sm);
     background: linear-gradient(135deg,#c47b00,#f9ba82); color: #2f1a00; font-weight: 700;
     font-size: .92rem; cursor: pointer;
+  }
+  .modal-box .btn-secondary {
+    margin-top: 10px; background: var(--surface-high); color: var(--on-surface-muted);
+    border: 1px solid var(--outline-variant); font-weight: 500;
   }
 </style>
 </head>
@@ -112,8 +123,20 @@
     <label for="fTel">Tu teléfono (opcional)</label>
     <input id="fTel" type="tel" placeholder="Ej. 5551234567" autocomplete="tel">
 
-    <label for="fCumple">Fecha de cumpleaños</label>
-    <input id="fCumple" type="date" autocomplete="bday">
+    <label>Cumpleaños (día y mes)</label>
+    <div style="display:flex; gap:8px;">
+      <select id="fCumpleDia" style="flex:1; padding:12px; border-radius:var(--radius-md); border:1px solid var(--outline-variant); background:var(--surface-high); color:var(--on-surface); font-family:inherit; font-size:1rem;">
+        <option value="">Día</option>
+        <script>for(let d=1;d<=31;d++) document.write(`<option value="${d}">${d}</option>`);</script>
+      </select>
+      <select id="fCumpleMes" style="flex:2; padding:12px; border-radius:var(--radius-md); border:1px solid var(--outline-variant); background:var(--surface-high); color:var(--on-surface); font-family:inherit; font-size:1rem;">
+        <option value="">Mes</option>
+        <option value="01">Enero</option><option value="02">Febrero</option><option value="03">Marzo</option>
+        <option value="04">Abril</option><option value="05">Mayo</option><option value="06">Junio</option>
+        <option value="07">Julio</option><option value="08">Agosto</option><option value="09">Septiembre</option>
+        <option value="10">Octubre</option><option value="11">Noviembre</option><option value="12">Diciembre</option>
+      </select>
+    </div>
 
     <button onclick="crearTarjeta()">Crear mi tarjeta digital</button>
   </div>
@@ -124,17 +147,23 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="modalIos">
+<div class="modal-overlay" id="modalInstall">
   <div class="modal-box">
     <div class="icon">📲</div>
     <h3>Agrega Barber 33 a tu inicio</h3>
-    <p>Para acceder rápido a tu tarjeta, agrégala como app:</p>
-    <div class="step">
-      1. Toca el botón <strong>Compartir</strong> <span style="font-size:1.1em;">⬆</span> (abajo)<br>
+    <p>Asi podras abrir tu tarjeta directo desde tu celular, como una app:</p>
+    <div class="step" id="stepsAndroid">
+      1. Toca los <strong>3 puntos</strong> ⋮ (arriba a la derecha)<br>
+      2. Toca <strong>"Agregar a pantalla de inicio"</strong><br>
+      3. Toca <strong>"Agregar"</strong> para confirmar
+    </div>
+    <div class="step" id="stepsIos" style="display:none">
+      1. Toca el boton <strong>Compartir</strong> <span style="font-size:1.2em">⬆</span> (abajo)<br>
       2. Baja y toca <strong>"Agregar a inicio"</strong><br>
       3. Toca <strong>"Agregar"</strong> arriba a la derecha
     </div>
-    <button onclick="cerrarModalYNavegar()">Entendido, ir a mi tarjeta</button>
+    <button onclick="cerrarModalYNavegar()">Listo, ir a mi tarjeta</button>
+    <button class="btn-secondary" onclick="cerrarModalYNavegar()">Ahora no, ir a mi tarjeta</button>
   </div>
 </div>
 
@@ -143,38 +172,60 @@
 
   document.getElementById('negocioNombre').textContent = (BARBER33_CONFIG.nombreNegocio || 'Barber 33').toUpperCase();
 
-  // Si este celular ya tiene una tarjeta creada, saltamos directo a ella.
+  // Si este celular ya tiene una tarjeta creada, sincronizar y redirigir.
   const existente = localStorage.getItem(STORAGE_KEY);
   if (existente) {
     const data = JSON.parse(existente);
-    const params = new URLSearchParams({
-      nombre: data.nombre,
-      pagados: data.pagados,
-      canjeados: data.canjeados,
-    });
-    if (data.tel) params.set('tel', data.tel);
-    if (data.cumple) params.set('cumple', data.cumple);
-    window.location.replace(`tarjeta.html?${params.toString()}`);
+    function irConDatos() {
+      const params = new URLSearchParams({
+        nombre: data.nombre,
+        pagados: data.pagados,
+        canjeados: data.canjeados,
+      });
+      if (data.tel) params.set('tel', data.tel);
+      if (data.cumple) params.set('cumple', data.cumple);
+      window.location.replace(`tarjeta.html?${params.toString()}`);
+    }
+    if (data.tel) {
+      BARBER33_CONFIG.detectarServidor().then(url => {
+        if (!url) { irConDatos(); return; }
+        fetch(`${url}/api/tarjeta-digital/consulta?tel=${encodeURIComponent(data.tel)}`, {
+          signal: AbortSignal.timeout(3000),
+        })
+        .then(r => r.json())
+        .then(res => {
+          if (res.ok) {
+            data.pagados = res.pagados;
+            data.canjeados = res.canjeados;
+            if (res.nombre) data.nombre = res.nombre;
+            if (res.cumple) data.cumple = res.cumple;
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          }
+          irConDatos();
+        })
+        .catch(() => irConDatos());
+      });
+    } else {
+      irConDatos();
+    }
   }
 
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('sw.js');
   }
 
-  // ── PWA install prompt ──
-  let deferredPrompt = null;
   let urlNavegar = '';
   const esIos = /iPhone|iPad|iPod/.test(navigator.userAgent);
   const esStandalone = window.matchMedia('(display-mode: standalone)').matches
     || window.navigator.standalone === true;
 
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-  });
+  if (esIos) {
+    document.getElementById('stepsAndroid').style.display = 'none';
+    document.getElementById('stepsIos').style.display = 'block';
+  }
 
   function cerrarModalYNavegar() {
-    document.getElementById('modalIos').classList.remove('show');
+    document.getElementById('modalInstall').classList.remove('show');
     if (urlNavegar) window.location.replace(urlNavegar);
   }
 
@@ -182,7 +233,9 @@
     const nombre = document.getElementById('fNombre').value.trim();
     if (!nombre) { alert('Escribe tu nombre para crear tu tarjeta.'); return; }
     const tel = document.getElementById('fTel').value.trim();
-    const cumple = document.getElementById('fCumple').value;
+    const dia = document.getElementById('fCumpleDia').value;
+    const mes = document.getElementById('fCumpleMes').value;
+    const cumple = (dia && mes) ? mes + '-' + String(dia).padStart(2, '0') : '';
 
     const params = new URLSearchParams({ nombre, pagados: '0', canjeados: '0' });
     if (tel) params.set('tel', tel);
@@ -196,42 +249,31 @@
         return;
       }
 
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => {
-          deferredPrompt = null;
-          window.location.replace(destino);
-        });
-        return;
-      }
-
-      if (esIos) {
-        urlNavegar = destino;
-        document.getElementById('modalIos').classList.add('show');
-        return;
-      }
-
-      window.location.replace(destino);
+      urlNavegar = destino;
+      document.getElementById('modalInstall').classList.add('show');
     }
 
-    const url = BARBER33_CONFIG.servidorUrl;
-    if (url && tel) {
-      fetch(`${url}/api/tarjeta-digital/registro`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ nombre, tel, cumple }),
-        signal: AbortSignal.timeout(4000),
-      })
-      .then(r => r.json())
-      .then(res => {
-        if (res.ok) {
-          params.set('pagados', res.pagados);
-          params.set('canjeados', res.canjeados);
-          if (res.cumple) params.set('cumple', res.cumple);
-        }
-        irATarjeta();
-      })
-      .catch(() => irATarjeta());
+    if (tel) {
+      BARBER33_CONFIG.detectarServidor().then(url => {
+        if (!url) { irATarjeta(); return; }
+        fetch(`${url}/api/tarjeta-digital/registro`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre, tel, cumple }),
+          signal: AbortSignal.timeout(4000),
+        })
+        .then(r => r.json())
+        .then(res => {
+          if (res.ok) {
+            if (res.nombre) params.set('nombre', res.nombre);
+            params.set('pagados', res.pagados);
+            params.set('canjeados', res.canjeados);
+            if (res.cumple) params.set('cumple', res.cumple);
+          }
+          irATarjeta();
+        })
+        .catch(() => irATarjeta());
+      });
     } else {
       irATarjeta();
     }

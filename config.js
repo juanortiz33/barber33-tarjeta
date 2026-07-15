@@ -1,18 +1,36 @@
-// ══════════════════════════════════════════════════════════
-// Barber 33 — Configuración de la Tarjeta Digital de Lealtad
-// Edita estos valores para personalizar los enlaces de contacto.
-// ══════════════════════════════════════════════════════════
 const BARBER33_CONFIG = {
   nombreNegocio: 'Barber 33',
 
-  // URL del servidor Flask de la barbería (red local).
-  // La tarjeta digital intenta sincronizar cuando el celular está en la WiFi del negocio.
-  servidorUrl: 'http://192.168.1.10:5000',
+  paginasUrl: 'https://juanortiz33.github.io/barber33-tarjeta/',
 
-  // Número real de WhatsApp del negocio (código de país + número, sin "+").
+  servidorLocal: 'http://192.168.1.10:5000',
+
+  servidorUrl: (() => {
+    const h = window.location.hostname;
+    if (h && h !== 'localhost' && !h.endsWith('.github.io')) return window.location.origin;
+    if (h === 'localhost') return window.location.origin;
+    return '';
+  })(),
+
+  async detectarServidor() {
+    const urls = [this.servidorUrl, this.servidorLocal].filter(Boolean);
+    for (const url of urls) {
+      try {
+        const r = await fetch(`${url}/api/tarjeta-digital/info`, { signal: AbortSignal.timeout(2500) });
+        if (r.ok) { this._servidorActivo = url; return url; }
+      } catch {}
+    }
+    this._servidorActivo = '';
+    return '';
+  },
+
+  getServidor() {
+    if (this._servidorActivo !== undefined) return this._servidorActivo;
+    return this.servidorUrl || this.servidorLocal;
+  },
+
   whatsappNumero: '529811784929',
 
-  // PIN que el barbero teclea en la tarjeta del cliente para sumar/canjear un corte.
   staffPin: '3033',
 
   mensajeAgendar(nombre) {

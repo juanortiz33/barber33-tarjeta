@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Generar Tarjeta QR — Barber 33 (Staff)</title>
+<title>Generar QR — Barber 33 (Staff)</title>
 <link rel="icon" href="data:,">
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;0,700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="config.js"></script>
@@ -26,7 +26,8 @@
   }
   .wrap { width: 100%; max-width: 480px; }
   h1 { font-family: 'Newsreader', serif; font-size: 1.4rem; margin: 0 0 4px; }
-  p.sub { color: var(--on-surface-muted); font-size: .85rem; margin: 0 0 24px; }
+  h2 { font-family: 'Newsreader', serif; font-size: 1.15rem; margin: 32px 0 4px; }
+  p.sub { color: var(--on-surface-muted); font-size: .85rem; margin: 0 0 16px; }
   .panel { background: var(--surface-container); border: 1px solid var(--outline-variant); border-radius: var(--radius-lg); padding: 22px; }
   label { display: block; font-size: .78rem; color: var(--on-surface-muted); margin: 14px 0 6px; }
   label:first-of-type { margin-top: 0; }
@@ -37,18 +38,16 @@
   }
   input:focus { outline: 2px solid var(--secondary); outline-offset: 1px; }
   .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  button {
+  button, .btn {
     margin-top: 18px; width: 100%; padding: 12px; border: none; border-radius: var(--radius-md);
     background: linear-gradient(135deg,#c47b00,#f9ba82); color: #2f1a00; font-weight: 700;
-    font-size: .92rem; cursor: pointer;
+    font-size: .92rem; cursor: pointer; display: block; text-align: center;
   }
-  .resultado { margin-top: 24px; display: none; }
+  .resultado { margin-top: 18px; display: none; }
   .resultado.show { display: block; }
   .qr-box { background: #fff; border-radius: var(--radius-md); padding: 16px; text-align: center; }
   .qr-box img { max-width: 100%; height: auto; }
-  .link-box {
-    display: flex; gap: 8px; margin-top: 14px;
-  }
+  .link-box { display: flex; gap: 8px; margin-top: 14px; }
   .link-box input { flex: 1; font-size: .78rem; }
   .link-box button {
     margin: 0; width: auto; padding: 10px 16px; background: var(--surface-high); color: var(--on-surface);
@@ -61,21 +60,41 @@
     color: var(--on-surface); text-decoration: none; font-size: .85rem; font-weight: 600;
   }
   .copied { color: #2ecc71; font-size: .76rem; margin-top: 6px; display: none; }
+  .divider { border: none; border-top: 1px solid var(--outline-variant); margin: 32px 0; }
+  .url-display { font-size: .82rem; color: var(--secondary); word-break: break-all; margin-top: 8px; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Generar tarjeta de cliente</h1>
-  <p class="sub">Herramienta interna de Barber 33 — crea el enlace y código QR de la tarjeta de lealtad de un cliente para imprimirlo o compartirlo por WhatsApp.</p>
+  <h1>QR de recepcion</h1>
+  <p class="sub">Este es el codigo QR general para imprimir y pegar en la barberia. Cualquier cliente lo escanea para crear su tarjeta de lealtad.</p>
+
+  <div class="panel">
+    <div id="qrRecepcion" class="qr-box" style="display:none">
+      <img id="qrRecImg" src="" alt="QR de recepcion Barber 33">
+    </div>
+    <div id="urlRecDisplay" class="url-display"></div>
+    <button id="btnGenRec" onclick="generarRecepcion()">Generar QR de recepcion</button>
+    <div class="link-box" id="recLinkBox" style="display:none; margin-top:14px">
+      <input id="urlRec" type="text" readonly>
+      <button onclick="copiar('urlRec','copiedRec')" style="margin:0;width:auto;padding:10px 16px;background:var(--surface-high);color:var(--on-surface);border:1px solid var(--outline-variant)">Copiar</button>
+    </div>
+    <div class="copied" id="copiedRec">Enlace copiado</div>
+  </div>
+
+  <hr class="divider">
+
+  <h2>QR individual (por cliente)</h2>
+  <p class="sub">Genera un QR personalizado para enviarselo a un cliente especifico por WhatsApp.</p>
 
   <div class="panel">
     <label for="fNombre">Nombre del cliente</label>
-    <input id="fNombre" type="text" placeholder="Ej. Juan Pérez">
+    <input id="fNombre" type="text" placeholder="Ej. Juan Perez">
 
-    <label for="fTel">Teléfono (opcional)</label>
+    <label for="fTel">Telefono (opcional)</label>
     <input id="fTel" type="text" placeholder="Ej. 5551234567">
 
-    <label for="fCumple">Cumpleaños (opcional)</label>
+    <label for="fCumple">Cumpleanos (opcional)</label>
     <input id="fCumple" type="date">
 
     <div class="row">
@@ -89,21 +108,18 @@
       </div>
     </div>
 
-    <label for="fBase">URL base de la tarjeta</label>
-    <input id="fBase" type="text">
-
-    <button onclick="generar()">Generar QR y enlace</button>
+    <button onclick="generarIndividual()">Generar QR y enlace</button>
   </div>
 
   <div class="resultado" id="resultado">
     <div class="qr-box">
-      <img id="qrImg" src="" alt="Código QR de la tarjeta">
+      <img id="qrImg" src="" alt="Codigo QR de la tarjeta">
     </div>
     <div class="link-box">
       <input id="urlGenerada" type="text" readonly>
-      <button onclick="copiarUrl()">Copiar</button>
+      <button onclick="copiar('urlGenerada','copiedMsg')">Copiar</button>
     </div>
-    <div class="copied" id="copiedMsg">✓ Enlace copiado</div>
+    <div class="copied" id="copiedMsg">Enlace copiado</div>
     <div class="actions-row">
       <a id="verTarjeta" href="#" target="_blank">Ver tarjeta</a>
       <a id="enviarWhatsapp" href="#" target="_blank">Enviar por WhatsApp</a>
@@ -112,30 +128,49 @@
 </div>
 
 <script>
-  document.getElementById('fBase').value = window.location.href.replace(/generar\.html.*$/, 'tarjeta.html');
+  let baseUrl = BARBER33_CONFIG.paginasUrl || '';
 
-  function generar() {
+  (async () => {
+    try {
+      const info = await fetch('/api/tarjeta-digital/info').then(r => r.json());
+      if (info.base) baseUrl = info.base;
+    } catch {}
+  })();
+
+  function qrApiUrl(data, size) {
+    return `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(data)}`;
+  }
+
+  function generarRecepcion() {
+    const url = baseUrl + 'registro.html';
+    document.getElementById('qrRecImg').src = qrApiUrl(url, 320);
+    document.getElementById('qrRecepcion').style.display = 'block';
+    document.getElementById('urlRec').value = url;
+    document.getElementById('recLinkBox').style.display = 'flex';
+    document.getElementById('urlRecDisplay').textContent = url;
+    document.getElementById('btnGenRec').textContent = 'Regenerar QR';
+  }
+
+  function generarIndividual() {
     const nombre = document.getElementById('fNombre').value.trim();
     if (!nombre) { alert('Ingresa el nombre del cliente'); return; }
     const tel = document.getElementById('fTel').value.trim();
     const cumple = document.getElementById('fCumple').value;
     const pagados = document.getElementById('fPagados').value || '0';
     const canjeados = document.getElementById('fCanjeados').value || '0';
-    const base = document.getElementById('fBase').value.trim();
 
     const params = new URLSearchParams({ nombre, pagados, canjeados });
     if (tel) params.set('tel', tel);
     if (cumple) params.set('cumple', cumple);
 
-    const url = `${base}?${params.toString()}`;
+    const url = baseUrl + `tarjeta.html?${params.toString()}`;
 
     document.getElementById('urlGenerada').value = url;
-    document.getElementById('qrImg').src =
-      `https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=${encodeURIComponent(url)}`;
+    document.getElementById('qrImg').src = qrApiUrl(url, 280);
     document.getElementById('verTarjeta').href = url;
 
     const numero = (BARBER33_CONFIG.whatsappNumero || '').replace(/\D/g, '');
-    const msg = `Hola ${nombre}, aquí está tu tarjeta de lealtad digital de Barber 33: ${url}`;
+    const msg = `Hola ${nombre}, aqui esta tu tarjeta de lealtad digital de Barber 33: ${url}`;
     document.getElementById('enviarWhatsapp').href =
       `https://wa.me/${tel ? tel.replace(/\D/g, '') : numero}?text=${encodeURIComponent(msg)}`;
 
@@ -143,11 +178,11 @@
     document.getElementById('copiedMsg').style.display = 'none';
   }
 
-  function copiarUrl() {
-    const input = document.getElementById('urlGenerada');
+  function copiar(inputId, msgId) {
+    const input = document.getElementById(inputId);
     input.select();
     navigator.clipboard.writeText(input.value).then(() => {
-      document.getElementById('copiedMsg').style.display = 'block';
+      document.getElementById(msgId).style.display = 'block';
     });
   }
 </script>
