@@ -1,29 +1,8 @@
-const CACHE = 'barber33-v3';
-const ASSETS = [
-  './',
-  './registro.html',
-  './tarjeta.html',
-  './config.js',
-  './icon-192.png',
-  './icon-512.png',
-];
-
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
-  self.skipWaiting();
-});
-
-self.addEventListener('activate', e => {
+self.addEventListener('install', function() { self.skipWaiting(); });
+self.addEventListener('activate', function(e) {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
-  );
-  self.clients.claim();
-});
-
-self.addEventListener('fetch', e => {
-  e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
+    caches.keys().then(function(keys) {
+      return Promise.all(keys.map(function(k) { return caches.delete(k); }));
+    }).then(function() { return self.clients.claim(); })
   );
 });
