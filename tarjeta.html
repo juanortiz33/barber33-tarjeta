@@ -501,18 +501,72 @@
     }
   });
 
-  document.getElementById('btnSumar').addEventListener('click', () => {
+  document.getElementById('btnSumar').addEventListener('click', async () => {
     const { data, esDemo } = cargarEstado();
     if (esDemo) { alert('Esta es una tarjeta de demostración. Escanea el QR de recepción para crear una real.'); return; }
+    if (!data.tel) {
+      data.pagados += 1;
+      guardarEstado(data);
+      render();
+      return;
+    }
+    const url = await BARBER33_CONFIG.detectarServidor();
+    if (url) {
+      try {
+        const r = await fetch(`${url}/api/tarjeta-digital/sumar`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin }),
+          signal: AbortSignal.timeout(4000),
+        });
+        const res = await r.json();
+        if (res.ok) {
+          data.pagados = res.pagados;
+          data.canjeados = res.canjeados;
+          guardarEstado(data);
+          render();
+          return;
+        }
+        alert(res.msg || 'Error al sumar corte');
+        return;
+      } catch {}
+    }
     data.pagados += 1;
     guardarEstado(data);
     render();
   });
 
-  document.getElementById('btnCanjear').addEventListener('click', () => {
+  document.getElementById('btnCanjear').addEventListener('click', async () => {
     const { data, esDemo } = cargarEstado();
     if (esDemo) { alert('Esta es una tarjeta de demostración. Escanea el QR de recepción para crear una real.'); return; }
     if (gratisDisponibles(data.pagados, data.canjeados) <= 0) return;
+    if (!data.tel) {
+      data.canjeados += 1;
+      guardarEstado(data);
+      render();
+      return;
+    }
+    const url = await BARBER33_CONFIG.detectarServidor();
+    if (url) {
+      try {
+        const r = await fetch(`${url}/api/tarjeta-digital/canjear`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin }),
+          signal: AbortSignal.timeout(4000),
+        });
+        const res = await r.json();
+        if (res.ok) {
+          data.pagados = res.pagados;
+          data.canjeados = res.canjeados;
+          guardarEstado(data);
+          render();
+          return;
+        }
+        alert(res.msg || 'Error al canjear');
+        return;
+      } catch {}
+    }
     data.canjeados += 1;
     guardarEstado(data);
     render();
