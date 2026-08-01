@@ -112,11 +112,11 @@
     <div class="sub">Únete a nuestro programa de lealtad<br>y llévate un corte gratis por cada 5.</div>
   </div>
 
-  <div class="stamp-preview">
+  <div class="stamp-preview" id="stampPreview">
     <div class="dot">✂</div><div class="dot">✂</div><div class="dot">✂</div><div class="dot">✂</div><div class="dot">✂</div>
   </div>
 
-  <div class="card">
+  <div class="card" id="formCard">
     <label for="fNombre">Tu nombre</label>
     <input id="fNombre" type="text" placeholder="Ej. Juan Pérez" autocomplete="name">
 
@@ -141,7 +141,7 @@
     <button onclick="crearTarjeta()">Crear mi tarjeta digital</button>
   </div>
 
-  <div class="footnote">
+  <div class="footnote" id="footnoteText">
     Tu tarjeta se guarda en este celular.<br>
     Muéstrasela a tu barbero en cada visita para sumar tus cortes.
   </div>
@@ -151,7 +151,7 @@
   <div class="modal-box">
     <div class="icon">📲</div>
     <h3>Agrega Barber 33 a tu inicio</h3>
-    <p>Asi podras abrir tu tarjeta directo desde tu celular, como una app:</p>
+    <p>Primero agrega Barber 33 a tu pantalla de inicio para tener tu tarjeta siempre a la mano:</p>
     <div class="step" id="stepsAndroid">
       1. Toca los <strong>3 puntos</strong> ⋮ (arriba a la derecha)<br>
       2. Toca <strong>"Agregar a pantalla de inicio"</strong><br>
@@ -162,8 +162,8 @@
       2. Baja y toca <strong>"Agregar a inicio"</strong><br>
       3. Toca <strong>"Agregar"</strong> arriba a la derecha
     </div>
-    <button onclick="cerrarModalYNavegar()">Listo, ir a mi tarjeta</button>
-    <button class="btn-secondary" onclick="cerrarModalYNavegar()">Ahora no, ir a mi tarjeta</button>
+    <button onclick="cerrarModalInstall()">Listo, ya lo agregué</button>
+    <button class="btn-secondary" onclick="cerrarModalInstall()">Ahora no, continuar</button>
   </div>
 </div>
 
@@ -214,7 +214,6 @@
     navigator.serviceWorker.register('sw.js');
   }
 
-  let urlNavegar = '';
   const esIos = /iPhone|iPad|iPod/.test(navigator.userAgent);
   const esStandalone = window.matchMedia('(display-mode: standalone)').matches
     || window.navigator.standalone === true;
@@ -224,9 +223,18 @@
     document.getElementById('stepsIos').style.display = 'block';
   }
 
-  function cerrarModalYNavegar() {
+  if (!esStandalone) {
+    document.getElementById('formCard').style.display = 'none';
+    document.getElementById('stampPreview').style.display = 'none';
+    document.getElementById('footnoteText').style.display = 'none';
+    document.getElementById('modalInstall').classList.add('show');
+  }
+
+  function cerrarModalInstall() {
     document.getElementById('modalInstall').classList.remove('show');
-    if (urlNavegar) window.location.replace(urlNavegar);
+    document.getElementById('formCard').style.display = '';
+    document.getElementById('stampPreview').style.display = '';
+    document.getElementById('footnoteText').style.display = '';
   }
 
   function crearTarjeta() {
@@ -242,15 +250,7 @@
     if (cumple) params.set('cumple', cumple);
 
     function irATarjeta() {
-      const destino = `tarjeta.html?${params.toString()}`;
-
-      if (esStandalone) {
-        window.location.replace(destino);
-        return;
-      }
-
-      urlNavegar = destino;
-      document.getElementById('modalInstall').classList.add('show');
+      window.location.replace(`tarjeta.html?${params.toString()}`);
     }
 
     if (tel) {
