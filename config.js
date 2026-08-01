@@ -3,9 +3,7 @@ const BARBER33_CONFIG = {
 
   paginasUrl: 'https://juanortiz33.github.io/barber33-tarjeta/',
 
-  servidorLocal: 'http://192.168.1.10:5000',
-
-  servidorTunel: 'https://barber33.net',
+  servidorLocal: 'https://barber33.net',
 
   servidorUrl: (() => {
     const h = window.location.hostname;
@@ -15,12 +13,11 @@ const BARBER33_CONFIG = {
   })(),
 
   async detectarServidor() {
-    const urls = [this.servidorUrl, this.servidorTunel, this.servidorLocal].filter(Boolean);
-    // Si estamos en HTTPS (GitHub Pages), solo intentar URLs HTTPS (mixed content bloqueado)
-    const intentar = window.location.protocol === 'https:'
+    const urls = [this.servidorUrl, this.servidorLocal].filter(Boolean);
+    const filtradas = window.location.protocol === 'https:'
       ? urls.filter(u => u.startsWith('https://'))
       : urls;
-    for (const url of intentar) {
+    for (const url of filtradas) {
       try {
         const r = await fetch(`${url}/api/tarjeta-digital/info`, { signal: AbortSignal.timeout(2500) });
         if (r.ok) { this._servidorActivo = url; return url; }
