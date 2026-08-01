@@ -1,4 +1,4 @@
-const CACHE = 'barber33-v5';
+const CACHE = 'barber33-v6';
 const ASSETS = [
   './',
   './registro.html',
@@ -23,7 +23,18 @@ self.addEventListener('activate', e => {
 });
 
 self.addEventListener('fetch', e => {
+  if (e.request.url.includes('/api/')) return;
+
   e.respondWith(
-    fetch(e.request).catch(() => caches.match(e.request))
+    fetch(e.request)
+      .then(r => {
+        if (r.ok) {
+          const copia = r.clone();
+          caches.open(CACHE).then(c => c.put(e.request, copia));
+          return r;
+        }
+        return caches.match(e.request).then(cached => cached || r);
+      })
+      .catch(() => caches.match(e.request))
   );
 });
