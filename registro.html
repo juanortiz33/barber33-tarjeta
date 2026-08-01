@@ -152,12 +152,14 @@
     <div class="icon">📲</div>
     <h3>Agrega Barber 33 a tu inicio</h3>
     <p>Primero agrega Barber 33 a tu pantalla de inicio para tener tu tarjeta siempre a la mano:</p>
-    <div class="step" id="stepsAndroid">
+    <div class="step">
+      <strong style="font-size:.82rem">Android (Chrome):</strong><br>
       1. Toca los <strong>3 puntos</strong> ⋮ (arriba a la derecha)<br>
       2. Toca <strong>"Agregar a pantalla de inicio"</strong><br>
       3. Toca <strong>"Agregar"</strong> para confirmar
     </div>
-    <div class="step" id="stepsIos" style="display:none">
+    <div class="step">
+      <strong style="font-size:.82rem">iPhone (Safari):</strong><br>
       1. Toca el boton <strong>Compartir</strong> <span style="font-size:1.2em">⬆</span> (abajo)<br>
       2. Baja y toca <strong>"Agregar a inicio"</strong><br>
       3. Toca <strong>"Agregar"</strong> arriba a la derecha
@@ -214,14 +216,8 @@
     navigator.serviceWorker.register('sw.js');
   }
 
-  const esIos = /iPhone|iPad|iPod/.test(navigator.userAgent);
   const esStandalone = window.matchMedia('(display-mode: standalone)').matches
     || window.navigator.standalone === true;
-
-  if (esIos) {
-    document.getElementById('stepsAndroid').style.display = 'none';
-    document.getElementById('stepsIos').style.display = 'block';
-  }
 
   if (!esStandalone) {
     document.getElementById('formCard').style.display = 'none';
