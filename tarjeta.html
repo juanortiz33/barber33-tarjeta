@@ -517,7 +517,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin }),
-          signal: AbortSignal.timeout(4000),
+          signal: (function(){ var c=new AbortController(); setTimeout(function(){c.abort();},4000); return c.signal; })(),
         });
         const res = await r.json();
         if (res.ok) {
@@ -553,7 +553,7 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin }),
-          signal: AbortSignal.timeout(4000),
+          signal: (function(){ var c=new AbortController(); setTimeout(function(){c.abort();},4000); return c.signal; })(),
         });
         const res = await r.json();
         if (res.ok) {
@@ -581,7 +581,7 @@
     BARBER33_CONFIG.detectarServidor().then(url => {
       if (!url) return;
       fetch(`${url}/api/tarjeta-digital/consulta?tel=${encodeURIComponent(data.tel)}`, {
-        signal: AbortSignal.timeout(4000),
+        signal: (function(){ var c=new AbortController(); setTimeout(function(){c.abort();},4000); return c.signal; })(),
       })
       .then(r => r.json())
       .then(res => {

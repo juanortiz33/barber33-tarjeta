@@ -1,4 +1,4 @@
-const CACHE = 'barber33-v7';
+const CACHE = 'barber33-v8';
 const ASSETS = [
   './',
   './registro.html',

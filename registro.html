@@ -191,8 +191,9 @@
     if (data.tel) {
       BARBER33_CONFIG.detectarServidor().then(url => {
         if (!url) { irConDatos(); return; }
+        var _ac1 = new AbortController(); setTimeout(function() { _ac1.abort(); }, 3000);
         fetch(`${url}/api/tarjeta-digital/consulta?tel=${encodeURIComponent(data.tel)}`, {
-          signal: AbortSignal.timeout(3000),
+          signal: _ac1.signal,
         })
         .then(r => r.json())
         .then(res => {
@@ -252,11 +253,12 @@
     if (tel) {
       BARBER33_CONFIG.detectarServidor().then(url => {
         if (!url) { irATarjeta(); return; }
+        var _ac2 = new AbortController(); setTimeout(function() { _ac2.abort(); }, 4000);
         fetch(`${url}/api/tarjeta-digital/registro`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ nombre, tel, cumple }),
-          signal: AbortSignal.timeout(4000),
+          signal: _ac2.signal,
         })
         .then(r => r.json())
         .then(res => {

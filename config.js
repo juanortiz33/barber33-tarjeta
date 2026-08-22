@@ -1,7 +1,7 @@
 const BARBER33_CONFIG = {
   nombreNegocio: 'Barber 33',
 
-  paginasUrl: 'https://juanortiz33.github.io/barber33-tarjeta/',
+  paginasUrl: 'https://barber33.net/tarjeta/',
 
   servidorLocal: 'https://barber33.net',
 
@@ -19,7 +19,8 @@ const BARBER33_CONFIG = {
       : urls;
     for (const url of filtradas) {
       try {
-        const r = await fetch(`${url}/api/tarjeta-digital/info`, { signal: AbortSignal.timeout(2500) });
+        const ac = new AbortController(); setTimeout(() => ac.abort(), 2500);
+        const r = await fetch(`${url}/api/tarjeta-digital/info`, { signal: ac.signal });
         if (r.ok) { this._servidorActivo = url; return url; }
       } catch {}
     }
