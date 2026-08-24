@@ -44,7 +44,10 @@
     font-size: .78rem; color: var(--on-surface-muted); margin-top: 6px; line-height: 1.5;
   }
   .stamp-preview {
-    display: flex; justify-content: center; gap: 8px; margin: 22px 0;
+    display: -webkit-flex; display: flex; -webkit-justify-content: center; justify-content: center; margin: 22px 0;
+  }
+  .stamp-preview .dot + .dot {
+    margin-left: 8px;
   }
   .stamp-preview .dot {
     width: 30px; height: 30px; border-radius: 50%;
@@ -74,7 +77,7 @@
     margin-top: 18px; line-height: 1.5;
   }
   .modal-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,0,0,.82);
+    display: none; position: fixed; top: 0; right: 0; bottom: 0; left: 0; background: rgba(0,0,0,.82);
     z-index: 100; align-items: center; justify-content: center; padding: 20px;
     animation: fadeIn .25s;
   }
@@ -124,8 +127,8 @@
     <input id="fTel" type="tel" placeholder="Ej. 5551234567" autocomplete="tel">
 
     <label>Cumpleaños (día y mes)</label>
-    <div style="display:flex; gap:8px;">
-      <select id="fCumpleDia" style="flex:1; padding:12px; border-radius:var(--radius-md); border:1px solid var(--outline-variant); background:var(--surface-high); color:var(--on-surface); font-family:inherit; font-size:1rem;">
+    <div style="display:-webkit-flex; display:flex;">
+      <select id="fCumpleDia" style="flex:1; padding:12px; border-radius:var(--radius-md); border:1px solid var(--outline-variant); background:var(--surface-high); color:var(--on-surface); font-family:inherit; font-size:1rem; margin-right:8px;">
         <option value="">Día</option>
         <script>for(let d=1;d<=31;d++) document.write(`<option value="${d}">${d}</option>`);</script>
       </select>
