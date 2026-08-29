@@ -1,33 +1,56 @@
-const BARBER33_CONFIG = {
+var BARBER33_CONFIG = {
   nombreNegocio: 'Barber 33',
 
-  paginasUrl: 'https://juanortiz33.github.io/barber33-tarjeta/',
+  paginasUrl: 'https://barber33.net/tarjeta/',
 
   servidorLocal: 'https://barber33.net',
 
-  servidorUrl: (() => {
-    const h = window.location.hostname;
-    if (h && h !== 'localhost' && !h.endsWith('.github.io')) return window.location.origin;
+  servidorUrl: (function() {
+    var h = window.location.hostname;
+    if (h && h !== 'localhost' && h.indexOf('.github.io') === -1) return window.location.origin;
     if (h === 'localhost') return window.location.origin;
     return '';
   })(),
 
-  async detectarServidor() {
-    const urls = [this.servidorUrl, this.servidorLocal].filter(Boolean);
-    const filtradas = window.location.protocol === 'https:'
-      ? urls.filter(u => u.startsWith('https://'))
-      : urls;
-    for (const url of filtradas) {
-      try {
-        const r = await fetch(`${url}/api/tarjeta-digital/info`, { signal: AbortSignal.timeout(2500) });
-        if (r.ok) { this._servidorActivo = url; return url; }
-      } catch {}
+  _servidorActivo: undefined,
+
+  detectarServidor: function() {
+    var self = this;
+    var urls = [];
+    if (self.servidorUrl) urls.push(self.servidorUrl);
+    if (self.servidorLocal && self.servidorLocal !== self.servidorUrl) urls.push(self.servidorLocal);
+    if (window.location.protocol === 'https:') {
+      urls = urls.filter(function(u) { return u.indexOf('https://') === 0; });
     }
-    this._servidorActivo = '';
-    return '';
+    if (urls.length === 0) {
+      self._servidorActivo = '';
+      return Promise.resolve('');
+    }
+    var idx = 0;
+    function intentar() {
+      if (idx >= urls.length) {
+        self._servidorActivo = '';
+        return Promise.resolve('');
+      }
+      var url = urls[idx];
+      idx++;
+      var opts = {};
+      if (typeof AbortController !== 'undefined') {
+        var ac = new AbortController();
+        setTimeout(function() { ac.abort(); }, 2500);
+        opts.signal = ac.signal;
+      }
+      return fetch(url + '/api/tarjeta-digital/info', opts)
+        .then(function(r) {
+          if (r.ok) { self._servidorActivo = url; return url; }
+          return intentar();
+        })
+        .catch(function() { return intentar(); });
+    }
+    return intentar();
   },
 
-  getServidor() {
+  getServidor: function() {
     if (this._servidorActivo !== undefined) return this._servidorActivo;
     return this.servidorUrl || this.servidorLocal;
   },
@@ -36,11 +59,11 @@ const BARBER33_CONFIG = {
 
   staffPin: '3033',
 
-  mensajeAgendar(nombre) {
-    return `Hola Barber 33 👋, soy ${nombre || 'un cliente'} y quiero agendar una cita.`;
+  mensajeAgendar: function(nombre) {
+    return 'Hola Barber 33, soy ' + (nombre || 'un cliente') + ' y quiero agendar una cita.';
   },
 
-  mensajeContacto(nombre) {
-    return `Hola Barber 33 👋, soy ${nombre || 'un cliente'}, tengo una pregunta sobre mi tarjeta de lealtad.`;
-  },
+  mensajeContacto: function(nombre) {
+    return 'Hola Barber 33, soy ' + (nombre || 'un cliente') + ', tengo una pregunta sobre mi tarjeta de lealtad.';
+  }
 };

@@ -20,252 +20,193 @@
     --surface-container:  #201f1f;
     --surface-high:       #2a2a2a;
     --surface-highest:    #353534;
-
     --primary:            #c6c6c6;
     --on-primary:         #2f3131;
-
     --secondary:              #f9ba82;
     --secondary-container:    #683d0f;
     --on-secondary-container: #e6a872;
-
     --on-surface:         #f0edec;
     --on-surface-variant: #c8cace;
     --on-surface-muted:   #a8aab0;
     --outline-variant:    #45474a;
-
     --radius-sm: 0.375rem;
     --radius-md: 0.75rem;
     --radius-lg: 1rem;
   }
-
   * { box-sizing: border-box; }
-
   body {
-    margin: 0;
-    min-height: 100vh;
-    background: var(--surface);
-    color: var(--on-surface);
+    margin: 0; min-height: 100vh; background: var(--surface); color: var(--on-surface);
     font-family: 'Manrope', sans-serif;
-    display: flex;
-    justify-content: center;
+    display: -webkit-flex; display: flex;
+    -webkit-justify-content: center; justify-content: center;
     padding: 28px 16px 40px;
   }
-
   .wrap { width: 100%; max-width: 420px; }
-
-  .brand {
-    text-align: center;
-    margin-bottom: 18px;
-  }
+  .brand { text-align: center; margin-bottom: 18px; }
   .brand .mark {
-    font-family: 'Newsreader', serif;
-    font-size: 1.6rem;
-    font-weight: 700;
-    letter-spacing: .04em;
-    color: var(--on-surface);
+    font-family: 'Newsreader', serif; font-size: 1.6rem; font-weight: 700;
+    letter-spacing: .04em; color: var(--on-surface);
   }
   .brand .sub {
-    font-size: .72rem;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--on-surface-muted);
-    margin-top: 2px;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--on-surface-muted); margin-top: 2px;
   }
-
   .card {
-    background: var(--surface-container);
-    border: 1px solid var(--outline-variant);
-    border-radius: var(--radius-lg);
-    padding: 24px;
+    background: var(--surface-container); border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-lg); padding: 24px;
   }
-
   .cliente-nombre {
-    font-family: 'Newsreader', serif;
-    font-size: 1.5rem;
-    font-weight: 600;
+    font-family: 'Newsreader', serif; font-size: 1.5rem; font-weight: 600;
   }
-  .cliente-tel {
-    color: var(--on-surface-muted);
-    font-size: .82rem;
-    margin-top: 2px;
-  }
-  .cliente-cumple {
-    color: var(--on-surface-muted);
-    font-size: .82rem;
-    margin-top: 2px;
-  }
+  .cliente-tel { color: var(--on-surface-muted); font-size: .82rem; margin-top: 2px; }
+  .cliente-cumple { color: var(--on-surface-muted); font-size: .82rem; margin-top: 2px; }
   .cumple-hoy {
-    display: inline-block;
-    margin-top: 8px;
-    background: linear-gradient(135deg,#c47b00,#f9ba82);
-    color: #2f1a00;
-    padding: 5px 14px;
-    border-radius: 99px;
-    font-size: .78rem;
-    font-weight: 700;
+    display: inline-block; margin-top: 8px;
+    background: linear-gradient(135deg,#c47b00,#f9ba82); color: #2f1a00;
+    padding: 5px 14px; border-radius: 99px; font-size: .78rem; font-weight: 700;
   }
-
   .badge-gratis {
-    display: inline-block;
-    margin-top: 10px;
-    background: linear-gradient(135deg,#1a6e3e,#2ecc71);
-    color: #fff;
-    padding: 5px 14px;
-    border-radius: 99px;
-    font-size: .78rem;
-    font-weight: 700;
+    display: inline-block; margin-top: 10px;
+    background: linear-gradient(135deg,#1a6e3e,#2ecc71); color: #fff;
+    padding: 5px 14px; border-radius: 99px; font-size: .78rem; font-weight: 700;
     letter-spacing: .03em;
   }
-
   .stamp-row {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
+    display: -webkit-flex; display: flex;
+    -webkit-flex-wrap: wrap; flex-wrap: wrap;
     margin: 18px 0 6px;
   }
+  .stamp-row .stamp { margin: 0 4px 4px 4px; }
   .stamp {
-    width: 36px; height: 36px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    width: 36px; height: 36px; border-radius: 50%;
+    display: -webkit-flex; display: flex;
+    -webkit-align-items: center; align-items: center;
+    -webkit-justify-content: center; justify-content: center;
     font-size: 1.05rem;
     border: 2px solid var(--outline-variant);
-    background: rgba(255,255,255,.04);
-    color: rgba(255,255,255,.25);
+    background: rgba(255,255,255,.04); color: rgba(255,255,255,.25);
   }
   .stamp.filled {
     background: var(--secondary-container);
-    border-color: var(--secondary);
-    color: var(--secondary);
+    border-color: var(--secondary); color: var(--secondary);
   }
   .stamp.gratis {
     background: linear-gradient(135deg,#1a6e3e,#2ecc71);
-    border-color: #2ecc71;
-    font-size: .68rem;
-    font-weight: 700;
-    color: #fff;
+    border-color: #2ecc71; font-size: .68rem; font-weight: 700; color: #fff;
   }
-
   .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: .78rem;
-    color: var(--on-surface-variant);
-    margin-top: 14px;
+    display: -webkit-flex; display: flex;
+    -webkit-justify-content: space-between; justify-content: space-between;
+    font-size: .78rem; color: var(--on-surface-variant); margin-top: 14px;
   }
   .progress-track {
-    height: 8px;
-    border-radius: 99px;
-    background: rgba(255,255,255,.08);
-    overflow: hidden;
-    margin-top: 6px;
+    height: 8px; border-radius: 99px; background: rgba(255,255,255,.08);
+    overflow: hidden; margin-top: 6px;
   }
   .progress-bar {
-    height: 100%;
-    border-radius: 99px;
+    height: 100%; border-radius: 99px;
     background: linear-gradient(90deg,#b8690a,#f9ba82);
-    transition: width .5s ease;
+    -webkit-transition: width .5s ease; transition: width .5s ease;
   }
   .progress-bar.done { background: linear-gradient(90deg,#1a6e3e,#2ecc71); }
-
   .mensaje {
-    margin-top: 14px;
-    font-size: .88rem;
-    color: var(--on-surface-variant);
-    line-height: 1.4;
+    margin-top: 14px; font-size: .88rem; color: var(--on-surface-variant); line-height: 1.4;
   }
-
   .stats {
-    display: grid;
+    display: -ms-grid; display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-    margin-top: 20px;
+    grid-gap: 10px; margin-top: 20px;
   }
   .stat {
-    background: var(--surface-high);
-    border-radius: var(--radius-md);
-    padding: 12px 8px;
-    text-align: center;
+    background: var(--surface-high); border-radius: var(--radius-md);
+    padding: 12px 8px; text-align: center;
   }
   .stat .num {
-    font-family: 'Newsreader', serif;
-    font-size: 1.3rem;
-    font-weight: 700;
+    font-family: 'Newsreader', serif; font-size: 1.3rem; font-weight: 700;
   }
   .stat .lbl {
-    font-size: .68rem;
-    color: var(--on-surface-muted);
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    margin-top: 2px;
+    font-size: .68rem; color: var(--on-surface-muted);
+    text-transform: uppercase; letter-spacing: .04em; margin-top: 2px;
   }
-
-  .actions { margin-top: 22px; display: flex; flex-direction: column; gap: 10px; }
+  .actions {
+    margin-top: 22px;
+    display: -webkit-flex; display: flex;
+    -webkit-flex-direction: column; flex-direction: column;
+  }
+  .actions .btn + .btn { margin-top: 10px; }
   .btn {
-    display: flex; align-items: center; justify-content: center; gap: 8px;
-    padding: 13px 16px;
-    border-radius: var(--radius-sm);
-    font-weight: 600;
-    font-size: .92rem;
-    text-decoration: none;
-    border: 1px solid transparent;
-    cursor: pointer;
+    display: -webkit-flex; display: flex;
+    -webkit-align-items: center; align-items: center;
+    -webkit-justify-content: center; justify-content: center;
+    padding: 13px 16px; border-radius: var(--radius-sm);
+    font-weight: 600; font-size: .92rem; text-decoration: none;
+    border: 1px solid transparent; cursor: pointer;
   }
-  .btn-primary {
-    background: linear-gradient(135deg,#25D366,#1fb355);
-    color: #0b2415;
-  }
-  .btn-outline {
-    background: transparent;
-    border-color: var(--outline-variant);
-    color: var(--on-surface);
-  }
-
+  .btn-primary { background: linear-gradient(135deg,#25D366,#1fb355); color: #0b2415; }
+  .btn-outline { background: transparent; border-color: var(--outline-variant); color: var(--on-surface); }
   .footnote {
-    text-align: center;
-    font-size: .72rem;
-    color: var(--on-surface-muted);
-    margin-top: 18px;
-    line-height: 1.5;
+    text-align: center; font-size: .72rem; color: var(--on-surface-muted);
+    margin-top: 18px; line-height: 1.5;
   }
-
-  .staff-zone {
-    margin-top: 18px;
-    text-align: center;
-  }
+  .staff-zone { margin-top: 18px; text-align: center; }
   .staff-link {
-    background: none;
-    border: none;
-    color: var(--on-surface-muted);
-    font-size: .72rem;
-    text-decoration: underline;
-    cursor: pointer;
-    padding: 4px;
+    background: none; border: none; color: var(--on-surface-muted);
+    font-size: .72rem; text-decoration: underline; cursor: pointer; padding: 4px;
   }
   .staff-actions {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
+    display: -webkit-flex; display: flex; margin-top: 10px;
   }
-  .staff-actions .btn {
-    flex: 1;
-    font-size: .82rem;
-    padding: 10px;
-  }
-
+  .staff-actions .btn { -webkit-flex: 1; flex: 1; font-size: .82rem; padding: 10px; }
+  .staff-actions .btn + .btn { margin-left: 10px; }
   .demo-tag {
-    display: block;
-    text-align: center;
-    font-size: .68rem;
-    letter-spacing: .12em;
-    text-transform: uppercase;
-    color: #f5c518;
-    background: rgba(245,197,24,.12);
-    border: 1px solid rgba(245,197,24,.3);
-    border-radius: 99px;
-    padding: 4px 10px;
-    margin: 0 auto 16px;
-    width: fit-content;
+    display: block; text-align: center; font-size: .68rem;
+    letter-spacing: .12em; text-transform: uppercase; color: #f5c518;
+    background: rgba(245,197,24,.12); border: 1px solid rgba(245,197,24,.3);
+    border-radius: 99px; padding: 4px 10px; margin: 0 auto 16px; width: -webkit-fit-content; width: fit-content;
   }
+  .promo-banner {
+    background: linear-gradient(135deg, #683d0f, #8b5a1b);
+    border: 1px solid rgba(249,186,130,.4);
+    border-radius: var(--radius-lg);
+    padding: 16px 18px;
+    margin-bottom: 14px;
+    text-align: center;
+  }
+  .promo-banner .promo-icon { font-size: 1.3rem; margin-bottom: 6px; }
+  .promo-banner .promo-titulo {
+    font-family: 'Newsreader', serif; font-size: 1.05rem; font-weight: 700;
+    color: #f9ba82; line-height: 1.3;
+  }
+  .promo-banner .promo-desc {
+    font-size: .82rem; color: var(--on-surface); margin-top: 6px; line-height: 1.5;
+    white-space: pre-line;
+  }
+  .promo-banner .promo-vence {
+    font-size: .7rem; color: var(--on-surface-muted); margin-top: 8px;
+  }
+  .hijo-card {
+    background: var(--surface-high);
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-md);
+    padding: 16px;
+    margin-top: 12px;
+  }
+  .hijo-card .hijo-nombre {
+    font-family: 'Newsreader', serif;
+    font-size: 1.05rem; font-weight: 600; margin-bottom: 8px;
+  }
+  .hijo-card .hijo-nombre .hijo-label {
+    font-family: 'Manrope', sans-serif;
+    font-size: .65rem; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--on-surface-muted); background: var(--surface-container);
+    padding: 2px 8px; border-radius: 99px; margin-left: 8px; font-weight: 600;
+  }
+  .hijo-card .stamp-row { margin: 10px 0 4px; }
+  .hijo-card .staff-actions {
+    display: -webkit-flex; display: flex; margin-top: 10px;
+  }
+  .hijo-card .staff-actions .btn { -webkit-flex:1; flex:1; font-size:.78rem; padding:8px; }
+  .hijo-card .staff-actions .btn + .btn { margin-left: 8px; }
 </style>
 </head>
 <body>
@@ -276,6 +217,8 @@
     </div>
 
     <div id="demoTag" class="demo-tag" style="display:none;">Vista de prueba — datos de ejemplo</div>
+
+    <div id="promoBanner" class="promo-banner" style="display:none;"></div>
 
     <div class="card">
       <div class="cliente-nombre" id="clienteNombre">—</div>
@@ -313,21 +256,23 @@
 
       <div class="actions">
         <a class="btn btn-primary" id="btnAgendar" href="#" target="_blank" rel="noopener">
-          📅 Agendar cita por WhatsApp
+          Agendar cita por WhatsApp
         </a>
         <a class="btn btn-outline" id="btnContacto" href="#" target="_blank" rel="noopener">
-          💬 Escribir por WhatsApp
+          Escribir por WhatsApp
         </a>
       </div>
 
       <div class="staff-zone">
         <button class="staff-link" id="btnStaffToggle">Panel del barbero</button>
         <div class="staff-actions" id="staffActions" style="display:none;">
-          <button class="btn btn-outline" id="btnSumar">➕ Sumar 1 corte</button>
-          <button class="btn btn-outline" id="btnCanjear">🎁 Canjear gratis</button>
+          <button class="btn btn-outline" id="btnSumar">+ Sumar 1 corte</button>
+          <button class="btn btn-outline" id="btnCanjear">Canjear gratis</button>
         </div>
       </div>
     </div>
+
+    <div id="hijosContainer"></div>
 
     <div id="syncStatus" style="display:none; text-align:center; font-size:.72rem; color:#2ecc71; margin-top:12px;"></div>
 
@@ -336,7 +281,7 @@
     </div>
 
     <div id="installBanner" style="margin-top:14px; background:var(--surface-container); border:1px solid var(--outline-variant); border-radius:var(--radius-lg); padding:16px; text-align:center; display:none;">
-      <div style="font-size:.88rem; font-weight:600; margin-bottom:6px;">📲 Agrega Barber 33 a tu inicio</div>
+      <div style="font-size:.88rem; font-weight:600; margin-bottom:6px;">Agrega Barber 33 a tu inicio</div>
       <div style="font-size:.75rem; color:var(--on-surface-muted); line-height:1.5;" id="installInstructions"></div>
       <button id="btnInstallPwa" style="display:none; margin-top:10px; width:100%; padding:12px; border:none; border-radius:var(--radius-sm); background:linear-gradient(135deg,#c47b00,#f9ba82); color:#2f1a00; font-weight:700; font-size:.88rem; cursor:pointer;">Instalar Barber 33</button>
     </div>
@@ -347,11 +292,8 @@
     navigator.serviceWorker.register('sw.js');
   }
 
-  const STORAGE_KEY = 'barber33_cliente';
+  var STORAGE_KEY = 'barber33_cliente';
 
-  // ── Misma regla de negocio que TarjetaLealtad en models.py ─────
-  // Ciclo 1: primeros 5 pagados -> 6to gratis
-  // Ciclo 2+: cada 10 pagados adicionales -> 1 gratis
   function gratisGanados(p) {
     if (p < 5) return 0;
     return 1 + Math.floor((p - 5) / 10);
@@ -360,90 +302,114 @@
     return Math.max(0, gratisGanados(p) - c);
   }
   function progresoActual(p, c) {
-    const disp = gratisDisponibles(p, c);
+    var disp = gratisDisponibles(p, c);
     if (disp > 0) {
-      const meta = c === 0 ? 5 : 10;
-      return { progreso: meta, meta, falta: 0 };
+      var meta2 = c === 0 ? 5 : 10;
+      return { progreso: meta2, meta: meta2, falta: 0 };
     }
     if (c === 0) {
       return { progreso: p, meta: 5, falta: Math.max(0, 5 - p) };
     }
-    const inicio = 5 + (c - 1) * 10;
-    const progreso = Math.max(0, p - inicio);
-    const falta = Math.max(0, 10 - progreso);
-    return { progreso, meta: 10, falta };
+    var inicio = 5 + (c - 1) * 10;
+    var progreso = Math.max(0, p - inicio);
+    var falta = Math.max(0, 10 - progreso);
+    return { progreso: progreso, meta: 10, falta: falta };
   }
 
-  // ── Siembra localStorage desde la URL UNA sola vez al cargar la página,
-  //    y limpia la URL para que un refresh o una acción del staff no vuelvan
-  //    a pisar los datos guardados con los valores (viejos) de la URL. ──
+  function fetchConTimeout(url, opciones, ms) {
+    opciones = opciones || {};
+    ms = ms || 4000;
+    if (typeof AbortController !== 'undefined') {
+      var ac = new AbortController();
+      setTimeout(function() { ac.abort(); }, ms);
+      opciones.signal = ac.signal;
+    }
+    return fetch(url, opciones);
+  }
+
   (function sembrarDesdeUrl() {
-    const params = new URLSearchParams(window.location.search);
+    var params = new URLSearchParams(window.location.search);
     if (!params.has('nombre')) return;
-    const data = {
+    var data = {
       nombre: params.get('nombre'),
       tel: params.get('tel') || '',
       cumple: params.get('cumple') || '',
       pagados: Math.max(0, parseInt(params.get('pagados')) || 0),
       canjeados: Math.max(0, parseInt(params.get('canjeados')) || 0),
+      hijos: []
     };
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    var hijosParam = params.get('hijos');
+    if (hijosParam) {
+      try { data.hijos = JSON.parse(hijosParam); } catch(e) {}
+    }
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
     history.replaceState({}, '', window.location.pathname);
   })();
 
-  // ── Estado del cliente: localStorage; si no existe, tarjeta de demo ──
   function cargarEstado() {
-    const guardado = localStorage.getItem(STORAGE_KEY);
+    var guardado = null;
+    try { guardado = localStorage.getItem(STORAGE_KEY); } catch(e) {}
     if (guardado) {
       return { data: JSON.parse(guardado), esDemo: false };
     }
     return {
       data: { nombre: 'Cliente Demo', tel: '', pagados: 7, canjeados: 0 },
-      esDemo: true,
+      esDemo: true
     };
   }
 
   function guardarEstado(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
   }
 
-  // ── Render ───────────────────────────────────────────────────
   function render() {
-    const { data, esDemo } = cargarEstado();
-    const { nombre, tel: telefono, cumple, pagados, canjeados } = data;
+    var estado = cargarEstado();
+    var data = estado.data;
+    var esDemo = estado.esDemo;
+    var nombre = data.nombre;
+    var telefono = data.tel;
+    var cumple = data.cumple;
+    var pagados = data.pagados;
+    var canjeados = data.canjeados;
 
-    const disponibles = gratisDisponibles(pagados, canjeados);
-    const { progreso, meta, falta } = progresoActual(pagados, canjeados);
-    const porcentaje = meta ? Math.round((progreso / meta) * 100) : 0;
+    var disponibles = gratisDisponibles(pagados, canjeados);
+    var prog = progresoActual(pagados, canjeados);
+    var progreso = prog.progreso;
+    var meta = prog.meta;
+    var falta = prog.falta;
+    var porcentaje = meta ? Math.round((progreso / meta) * 100) : 0;
 
-    document.getElementById('negocioNombre').textContent = (BARBER33_CONFIG.nombreNegocio || 'Barber 33').toUpperCase();
+    try {
+      document.getElementById('negocioNombre').textContent =
+        ((typeof BARBER33_CONFIG !== 'undefined' ? BARBER33_CONFIG.nombreNegocio : '') || 'Barber 33').toUpperCase();
+    } catch(e) {}
     document.getElementById('demoTag').style.display = esDemo ? 'block' : 'none';
     document.getElementById('clienteNombre').textContent = nombre;
-    document.getElementById('clienteTel').textContent = telefono ? `📱 ${telefono}` : '';
+    document.getElementById('clienteTel').textContent = telefono ? telefono : '';
 
     if (cumple) {
-      const parts = cumple.split('-').map(Number);
-      const m = parts.length === 3 ? parts[1] : parts[0];
-      const d = parts.length === 3 ? parts[2] : parts[1];
-      const meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-      document.getElementById('clienteCumple').textContent = `🎂 ${d} ${meses[m - 1]}`;
-      const hoy = new Date();
-      const esCumple = hoy.getDate() === d && (hoy.getMonth() + 1) === m;
+      var parts = cumple.split('-');
+      var m = parts.length === 3 ? parseInt(parts[1]) : parseInt(parts[0]);
+      var d = parts.length === 3 ? parseInt(parts[2]) : parseInt(parts[1]);
+      var meses = ['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+      document.getElementById('clienteCumple').textContent = d + ' ' + meses[m - 1];
+      var hoy = new Date();
+      var esCumple = hoy.getDate() === d && (hoy.getMonth() + 1) === m;
       document.getElementById('badgeCumple').innerHTML = esCumple
-        ? '<span class="cumple-hoy">🎉 ¡Feliz cumpleaños!</span>' : '';
+        ? '<span class="cumple-hoy">Feliz cumpleanos!</span>' : '';
     } else {
       document.getElementById('clienteCumple').textContent = '';
       document.getElementById('badgeCumple').innerHTML = '';
     }
 
     document.getElementById('badgeGratis').innerHTML = disponibles > 0
-      ? `<span class="badge-gratis">🎉 ${disponibles} servicio${disponibles > 1 ? 's' : ''} GRATIS disponible${disponibles > 1 ? 's' : ''}</span>`
+      ? '<span class="badge-gratis">' + disponibles + ' servicio' + (disponibles > 1 ? 's' : '') + ' GRATIS disponible' + (disponibles > 1 ? 's' : '') + '</span>'
       : '';
 
-    const stampRow = document.getElementById('stampRow');
+    var stampRow = document.getElementById('stampRow');
     stampRow.innerHTML = '';
-    for (let i = 1; i <= meta; i++) {
-      const el = document.createElement('div');
+    for (var i = 1; i <= meta; i++) {
+      var el = document.createElement('div');
       if (disponibles > 0) {
         el.className = 'stamp gratis';
         el.textContent = 'GRATIS';
@@ -457,185 +423,361 @@
       stampRow.appendChild(el);
     }
 
-    document.getElementById('progresoTexto').textContent = `${progreso} / ${meta} cortes`;
-    document.getElementById('porcentajeTexto').textContent = `${porcentaje}%`;
-    const bar = document.getElementById('progressBar');
+    document.getElementById('progresoTexto').textContent = progreso + ' / ' + meta + ' cortes';
+    document.getElementById('porcentajeTexto').textContent = porcentaje + '%';
+    var bar = document.getElementById('progressBar');
     bar.style.width = porcentaje + '%';
-    bar.classList.toggle('done', disponibles > 0);
+    if (disponibles > 0) { bar.className = 'progress-bar done'; } else { bar.className = 'progress-bar'; }
 
     document.getElementById('mensajeEstado').textContent = disponibles > 0
-      ? '¡Tu próximo corte es gratis! Muestra esta pantalla a tu barbero para canjearlo.'
-      : `Te falta${falta === 1 ? '' : 'n'} ${falta} corte${falta === 1 ? '' : 's'} para tu próximo servicio GRATIS.`;
+      ? 'Tu proximo corte es gratis! Muestra esta pantalla a tu barbero para canjearlo.'
+      : 'Te falta' + (falta === 1 ? '' : 'n') + ' ' + falta + ' corte' + (falta === 1 ? '' : 's') + ' para tu proximo servicio GRATIS.';
 
     document.getElementById('statPagados').textContent = pagados;
     document.getElementById('statCanjeados').textContent = canjeados;
     document.getElementById('statDisponibles').textContent = disponibles;
 
-    const numero = (BARBER33_CONFIG.whatsappNumero || '').replace(/\D/g, '');
-    document.getElementById('btnAgendar').href =
-      `https://wa.me/${numero}?text=${encodeURIComponent(BARBER33_CONFIG.mensajeAgendar(nombre))}`;
-    document.getElementById('btnContacto').href =
-      `https://wa.me/${numero}?text=${encodeURIComponent(BARBER33_CONFIG.mensajeContacto(nombre))}`;
+    if (typeof BARBER33_CONFIG !== 'undefined') {
+      var numero = (BARBER33_CONFIG.whatsappNumero || '').replace(/\D/g, '');
+      document.getElementById('btnAgendar').href =
+        'https://wa.me/' + numero + '?text=' + encodeURIComponent(BARBER33_CONFIG.mensajeAgendar(nombre));
+      document.getElementById('btnContacto').href =
+        'https://wa.me/' + numero + '?text=' + encodeURIComponent(BARBER33_CONFIG.mensajeContacto(nombre));
+    }
 
     document.getElementById('btnCanjear').disabled = disponibles <= 0;
 
-    return { data, esDemo };
+    return { data: data, esDemo: esDemo };
   }
 
-  // ── Panel del barbero (protegido con PIN) ───────────────────────
-  let staffAutorizado = false;
+  function renderHijos() {
+    var estado = cargarEstado();
+    var data = estado.data;
+    var hijos = data.hijos || [];
+    var cont = document.getElementById('hijosContainer');
+    cont.innerHTML = '';
+    if (hijos.length === 0) return;
 
-  document.getElementById('btnStaffToggle').addEventListener('click', () => {
+    for (var idx = 0; idx < hijos.length; idx++) {
+      (function(i) {
+        var h = hijos[i];
+        var p = h.pagados || 0;
+        var c = h.canjeados || 0;
+
+        var gGanados = p < 5 ? 0 : 1 + Math.floor((p - 5) / 10);
+        var disp = Math.max(0, gGanados - c);
+        var meta, progreso, falta;
+        if (disp > 0) {
+          meta = c === 0 ? 5 : 10; progreso = meta; falta = 0;
+        } else if (c === 0) {
+          meta = 5; progreso = p; falta = Math.max(0, 5 - p);
+        } else {
+          var inicio = 5 + (c - 1) * 10;
+          progreso = Math.max(0, p - inicio);
+          meta = 10; falta = Math.max(0, 10 - progreso);
+        }
+        var pct = meta ? Math.round((progreso / meta) * 100) : 0;
+
+        var card = document.createElement('div');
+        card.className = 'hijo-card';
+
+        var html = '<div class="hijo-nombre">' + h.nombre + '<span class="hijo-label">Hijo</span></div>';
+
+        html += '<div class="stamp-row">';
+        for (var s = 1; s <= meta; s++) {
+          if (disp > 0) {
+            html += '<div class="stamp gratis">GRATIS</div>';
+          } else if (s <= progreso) {
+            html += '<div class="stamp filled">✓</div>';
+          } else {
+            html += '<div class="stamp">✂</div>';
+          }
+        }
+        html += '</div>';
+
+        html += '<div class="progress-label"><span>' + progreso + ' / ' + meta + ' cortes</span><span>' + pct + '%</span></div>';
+        html += '<div class="progress-track"><div class="progress-bar' + (disp > 0 ? ' done' : '') + '" style="width:' + pct + '%"></div></div>';
+
+        if (disp > 0) {
+          html += '<div style="margin-top:8px;"><span class="badge-gratis">' + disp + ' GRATIS</span></div>';
+        } else {
+          html += '<div class="mensaje" style="margin-top:6px;font-size:.82rem;">Falta' + (falta === 1 ? '' : 'n') + ' ' + falta + ' corte' + (falta === 1 ? '' : 's') + ' para gratis.</div>';
+        }
+
+        html += '<div class="staff-actions" id="hijoStaff' + i + '" style="display:none;">';
+        html += '<button class="btn btn-outline" onclick="sumarHijo(' + i + ')">+ Sumar corte</button>';
+        html += '<button class="btn btn-outline" onclick="canjearHijo(' + i + ')"' + (disp <= 0 ? ' disabled' : '') + '>Canjear gratis</button>';
+        html += '</div>';
+
+        card.innerHTML = html;
+        cont.appendChild(card);
+      })(idx);
+    }
+  }
+
+  var staffAutorizado = false;
+
+  function toggleStaffHijos(mostrar) {
+    var estado = cargarEstado();
+    var hijos = (estado.data.hijos || []);
+    for (var i = 0; i < hijos.length; i++) {
+      var el = document.getElementById('hijoStaff' + i);
+      if (el) el.style.display = mostrar ? 'flex' : 'none';
+    }
+  }
+
+  document.getElementById('btnStaffToggle').addEventListener('click', function() {
     if (staffAutorizado) {
-      document.getElementById('staffActions').style.display =
-        document.getElementById('staffActions').style.display === 'none' ? 'flex' : 'none';
+      var sa = document.getElementById('staffActions');
+      var show = sa.style.display === 'none';
+      sa.style.display = show ? 'flex' : 'none';
+      toggleStaffHijos(show);
       return;
     }
-    const pin = prompt('PIN del barbero:');
+    var pin = prompt('PIN del barbero:');
     if (pin === null) return;
-    if (pin === BARBER33_CONFIG.staffPin) {
+    if (typeof BARBER33_CONFIG !== 'undefined' && pin === BARBER33_CONFIG.staffPin) {
       staffAutorizado = true;
       document.getElementById('staffActions').style.display = 'flex';
+      toggleStaffHijos(true);
     } else {
       alert('PIN incorrecto.');
     }
   });
 
-  document.getElementById('btnSumar').addEventListener('click', async () => {
-    const { data, esDemo } = cargarEstado();
-    if (esDemo) { alert('Esta es una tarjeta de demostración. Escanea el QR de recepción para crear una real.'); return; }
-    if (!data.tel) {
+  function sumarHijo(idx) {
+    var estado = cargarEstado();
+    var data = estado.data;
+    if (estado.esDemo) { alert('Tarjeta de demostracion.'); return; }
+    if (!data.hijos || !data.hijos[idx]) return;
+    var hijo = data.hijos[idx];
+
+    if (data.tel && typeof BARBER33_CONFIG !== 'undefined') {
+      BARBER33_CONFIG.detectarServidor().then(function(url) {
+        if (!url || !hijo.id) { hijo.pagados = (hijo.pagados || 0) + 1; guardarEstado(data); render(); renderHijos(); return; }
+        fetchConTimeout(url + '/api/tarjeta-digital/sumar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin, hijo_id: hijo.id })
+        }, 4000)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res.ok) { hijo.pagados = res.pagados; hijo.canjeados = res.canjeados; }
+          else { hijo.pagados = (hijo.pagados || 0) + 1; }
+          guardarEstado(data); render(); renderHijos();
+        })
+        .catch(function() { hijo.pagados = (hijo.pagados || 0) + 1; guardarEstado(data); render(); renderHijos(); });
+      }).catch(function() { hijo.pagados = (hijo.pagados || 0) + 1; guardarEstado(data); render(); renderHijos(); });
+    } else {
+      hijo.pagados = (hijo.pagados || 0) + 1;
+      guardarEstado(data); render(); renderHijos();
+    }
+  }
+
+  function canjearHijo(idx) {
+    var estado = cargarEstado();
+    var data = estado.data;
+    if (estado.esDemo) { alert('Tarjeta de demostracion.'); return; }
+    if (!data.hijos || !data.hijos[idx]) return;
+    var hijo = data.hijos[idx];
+    var p = hijo.pagados || 0;
+    var c = hijo.canjeados || 0;
+    var gGanados = p < 5 ? 0 : 1 + Math.floor((p - 5) / 10);
+    if (Math.max(0, gGanados - c) <= 0) return;
+
+    if (data.tel && typeof BARBER33_CONFIG !== 'undefined') {
+      BARBER33_CONFIG.detectarServidor().then(function(url) {
+        if (!url || !hijo.id) { hijo.canjeados = c + 1; guardarEstado(data); render(); renderHijos(); return; }
+        fetchConTimeout(url + '/api/tarjeta-digital/canjear', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin, hijo_id: hijo.id })
+        }, 4000)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res.ok) { hijo.pagados = res.pagados; hijo.canjeados = res.canjeados; }
+          else { hijo.canjeados = c + 1; }
+          guardarEstado(data); render(); renderHijos();
+        })
+        .catch(function() { hijo.canjeados = c + 1; guardarEstado(data); render(); renderHijos(); });
+      }).catch(function() { hijo.canjeados = c + 1; guardarEstado(data); render(); renderHijos(); });
+    } else {
+      hijo.canjeados = c + 1;
+      guardarEstado(data); render(); renderHijos();
+    }
+  }
+
+  document.getElementById('btnSumar').addEventListener('click', function() {
+    var estado = cargarEstado();
+    var data = estado.data;
+    if (estado.esDemo) { alert('Esta es una tarjeta de demostracion. Escanea el QR de recepcion para crear una real.'); return; }
+    if (!data.tel || typeof BARBER33_CONFIG === 'undefined') {
       data.pagados += 1;
       guardarEstado(data);
       render();
       return;
     }
-    const url = await BARBER33_CONFIG.detectarServidor();
-    if (url) {
-      try {
-        const r = await fetch(`${url}/api/tarjeta-digital/sumar`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin }),
-          signal: AbortSignal.timeout(4000),
-        });
-        const res = await r.json();
+    BARBER33_CONFIG.detectarServidor().then(function(url) {
+      if (!url) { data.pagados += 1; guardarEstado(data); render(); return; }
+      fetchConTimeout(url + '/api/tarjeta-digital/sumar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin })
+      }, 4000)
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
         if (res.ok) {
           data.pagados = res.pagados;
           data.canjeados = res.canjeados;
           guardarEstado(data);
           render();
-          return;
+        } else {
+          alert(res.msg || 'Error al sumar corte');
         }
-        alert(res.msg || 'Error al sumar corte');
-        return;
-      } catch {}
-    }
-    data.pagados += 1;
-    guardarEstado(data);
-    render();
+      })
+      .catch(function() {
+        data.pagados += 1;
+        guardarEstado(data);
+        render();
+      });
+    }).catch(function() {
+      data.pagados += 1;
+      guardarEstado(data);
+      render();
+    });
   });
 
-  document.getElementById('btnCanjear').addEventListener('click', async () => {
-    const { data, esDemo } = cargarEstado();
-    if (esDemo) { alert('Esta es una tarjeta de demostración. Escanea el QR de recepción para crear una real.'); return; }
+  document.getElementById('btnCanjear').addEventListener('click', function() {
+    var estado = cargarEstado();
+    var data = estado.data;
+    if (estado.esDemo) { alert('Esta es una tarjeta de demostracion. Escanea el QR de recepcion para crear una real.'); return; }
     if (gratisDisponibles(data.pagados, data.canjeados) <= 0) return;
-    if (!data.tel) {
+    if (!data.tel || typeof BARBER33_CONFIG === 'undefined') {
       data.canjeados += 1;
       guardarEstado(data);
       render();
       return;
     }
-    const url = await BARBER33_CONFIG.detectarServidor();
-    if (url) {
-      try {
-        const r = await fetch(`${url}/api/tarjeta-digital/canjear`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin }),
-          signal: AbortSignal.timeout(4000),
-        });
-        const res = await r.json();
+    BARBER33_CONFIG.detectarServidor().then(function(url) {
+      if (!url) { data.canjeados += 1; guardarEstado(data); render(); return; }
+      fetchConTimeout(url + '/api/tarjeta-digital/canjear', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin })
+      }, 4000)
+      .then(function(r) { return r.json(); })
+      .then(function(res) {
         if (res.ok) {
           data.pagados = res.pagados;
           data.canjeados = res.canjeados;
           guardarEstado(data);
           render();
-          return;
+        } else {
+          alert(res.msg || 'Error al canjear');
         }
-        alert(res.msg || 'Error al canjear');
-        return;
-      } catch {}
-    }
-    data.canjeados += 1;
-    guardarEstado(data);
-    render();
+      })
+      .catch(function() {
+        data.canjeados += 1;
+        guardarEstado(data);
+        render();
+      });
+    }).catch(function() {
+      data.canjeados += 1;
+      guardarEstado(data);
+      render();
+    });
   });
 
   render();
+  renderHijos();
 
-  // ── Sincronizar con servidor Flask (cuando hay WiFi del negocio) ──
   function sincronizar() {
-    const { data, esDemo } = cargarEstado();
-    if (esDemo || !data.tel) return;
-    BARBER33_CONFIG.detectarServidor().then(url => {
+    var estado = cargarEstado();
+    var data = estado.data;
+    if (estado.esDemo || !data.tel || typeof BARBER33_CONFIG === 'undefined') return;
+    BARBER33_CONFIG.detectarServidor().then(function(url) {
       if (!url) return;
-      fetch(`${url}/api/tarjeta-digital/consulta?tel=${encodeURIComponent(data.tel)}`, {
-        signal: AbortSignal.timeout(4000),
-      })
-      .then(r => r.json())
-      .then(res => {
-        if (!res.ok) return;
-        data.nombre = res.nombre || data.nombre;
-        data.pagados = res.pagados;
-        data.canjeados = res.canjeados;
-        if (res.cumple) data.cumple = res.cumple;
-        guardarEstado(data);
-        render();
-        document.getElementById('syncStatus').textContent = '✓ Sincronizado con la barbería';
-        document.getElementById('syncStatus').style.display = 'block';
-      })
-      .catch(() => {});
-    });
+      fetchConTimeout(url + '/api/tarjeta-digital/consulta?tel=' + encodeURIComponent(data.tel), {}, 4000)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (!res.ok) return;
+          data.nombre = res.nombre || data.nombre;
+          data.pagados = res.pagados;
+          data.canjeados = res.canjeados;
+          if (res.cumple) data.cumple = res.cumple;
+          if (res.hijos && res.hijos.length > 0) data.hijos = res.hijos;
+          guardarEstado(data);
+          render();
+          renderHijos();
+          document.getElementById('syncStatus').textContent = 'Sincronizado con la barberia';
+          document.getElementById('syncStatus').style.display = 'block';
+        })
+        .catch(function() {});
+    }).catch(function() {});
   }
   sincronizar();
 
-  // ── Instalar PWA / Agregar a inicio ─────────────────────────
-  let deferredPrompt = null;
-  const banner = document.getElementById('installBanner');
-  const btnInstall = document.getElementById('btnInstallPwa');
-  const instructions = document.getElementById('installInstructions');
+  function cargarPromocion() {
+    if (typeof BARBER33_CONFIG === 'undefined') return;
+    BARBER33_CONFIG.detectarServidor().then(function(url) {
+      if (!url) return;
+      fetchConTimeout(url + '/api/tarjeta-digital/promocion-activa', {}, 3000)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (!res.hay) return;
+          var banner = document.getElementById('promoBanner');
+          var html = '<div class="promo-icon">🎉</div>';
+          html += '<div class="promo-titulo">' + res.titulo + '</div>';
+          html += '<div class="promo-desc">' + res.descripcion + '</div>';
+          if (res.fecha_fin) {
+            html += '<div class="promo-vence">Válido hasta: ' + res.fecha_fin + '</div>';
+          }
+          banner.innerHTML = html;
+          banner.style.display = 'block';
+        })
+        .catch(function() {});
+    }).catch(function() {});
+  }
+  cargarPromocion();
 
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches
-    || window.navigator.standalone === true;
+  var deferredPrompt = null;
+  var banner = document.getElementById('installBanner');
+  var btnInstall = document.getElementById('btnInstallPwa');
+  var instructions = document.getElementById('installInstructions');
+
+  var isStandalone = false;
+  try {
+    isStandalone = window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true;
+  } catch(e) {}
 
   if (!isStandalone) {
     banner.style.display = 'block';
-    const ua = navigator.userAgent;
+    var ua = navigator.userAgent || '';
     if (/iPhone|iPad|iPod/.test(ua)) {
-      instructions.innerHTML = 'Toca el botón <strong>Compartir</strong> (el cuadrito con flecha ↑) y luego <strong>"Agregar a pantalla de inicio"</strong>.';
+      instructions.innerHTML = 'Toca el boton <strong>Compartir</strong> (el cuadrito con flecha) y luego <strong>"Agregar a pantalla de inicio"</strong>.';
     } else {
-      instructions.textContent = 'Toca el menú (⋮) de tu navegador y selecciona "Agregar a pantalla de inicio".';
+      instructions.textContent = 'Toca el menu de tu navegador y selecciona "Agregar a pantalla de inicio".';
     }
   }
 
-  window.addEventListener('beforeinstallprompt', e => {
+  window.addEventListener('beforeinstallprompt', function(e) {
     e.preventDefault();
     deferredPrompt = e;
     instructions.style.display = 'none';
     btnInstall.style.display = 'block';
   });
 
-  btnInstall.addEventListener('click', () => {
+  btnInstall.addEventListener('click', function() {
     if (!deferredPrompt) return;
     deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(() => {
+    deferredPrompt.userChoice.then(function() {
       deferredPrompt = null;
       banner.style.display = 'none';
     });
   });
 
-  window.addEventListener('appinstalled', () => {
+  window.addEventListener('appinstalled', function() {
     banner.style.display = 'none';
   });
 </script>

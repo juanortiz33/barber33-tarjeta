@@ -1,40 +1,40 @@
-const CACHE = 'barber33-v7';
-const ASSETS = [
+var CACHE = 'barber33-v12';
+var ASSETS = [
   './',
   './registro.html',
   './tarjeta.html',
   './config.js',
   './icon-192.png',
-  './icon-512.png',
+  './icon-512.png'
 ];
 
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
+self.addEventListener('install', function(e) {
+  e.waitUntil(caches.open(CACHE).then(function(c) { return c.addAll(ASSETS); }));
   self.skipWaiting();
 });
 
-self.addEventListener('activate', e => {
+self.addEventListener('activate', function(e) {
   e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    )
+    caches.keys().then(function(keys) {
+      return Promise.all(keys.filter(function(k) { return k !== CACHE; }).map(function(k) { return caches.delete(k); }));
+    })
   );
   self.clients.claim();
 });
 
-self.addEventListener('fetch', e => {
-  if (e.request.url.includes('/api/')) return;
+self.addEventListener('fetch', function(e) {
+  if (e.request.url.indexOf('/api/') !== -1) return;
 
   e.respondWith(
     fetch(e.request)
-      .then(r => {
+      .then(function(r) {
         if (r.ok) {
-          const copia = r.clone();
-          caches.open(CACHE).then(c => c.put(e.request, copia));
+          var copia = r.clone();
+          caches.open(CACHE).then(function(c) { c.put(e.request, copia); });
           return r;
         }
-        return caches.match(e.request).then(cached => cached || r);
+        return caches.match(e.request).then(function(cached) { return cached || r; });
       })
-      .catch(() => caches.match(e.request))
+      .catch(function() { return caches.match(e.request); })
   );
 });
