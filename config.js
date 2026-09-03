@@ -5,6 +5,8 @@ var BARBER33_CONFIG = {
 
   servidorLocal: 'https://barber33.net',
 
+  servidorNube: 'https://tarjeta-api.barber33.net',
+
   servidorUrl: (function() {
     var h = window.location.hostname;
     if (h && h !== 'localhost' && h.indexOf('.github.io') === -1) return window.location.origin;
@@ -19,6 +21,7 @@ var BARBER33_CONFIG = {
     var urls = [];
     if (self.servidorUrl) urls.push(self.servidorUrl);
     if (self.servidorLocal && self.servidorLocal !== self.servidorUrl) urls.push(self.servidorLocal);
+    if (self.servidorNube) urls.push(self.servidorNube);
     if (window.location.protocol === 'https:') {
       urls = urls.filter(function(u) { return u.indexOf('https://') === 0; });
     }

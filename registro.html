@@ -251,6 +251,7 @@
               data.canjeados = res.canjeados;
               if (res.nombre) data.nombre = res.nombre;
               if (res.cumple) data.cumple = res.cumple;
+              if (res.hijos) data.hijos = res.hijos;
               try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
             }
             if (!_redirigido) { _redirigido = true; irConDatos(data); }
