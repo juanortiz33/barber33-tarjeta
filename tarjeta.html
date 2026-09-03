@@ -343,6 +343,34 @@
     history.replaceState({}, '', window.location.pathname);
   })();
 
+  (function consultarDesdeUrl() {
+    var params = new URLSearchParams(window.location.search);
+    var tel = params.get('tel');
+    if (!tel || params.has('nombre')) return;
+    var guardado = null;
+    try { guardado = localStorage.getItem(STORAGE_KEY); } catch(e) {}
+    if (guardado) return;
+    if (typeof BARBER33_CONFIG === 'undefined') return;
+    BARBER33_CONFIG.detectarServidor().then(function(url) {
+      if (!url) return;
+      fetchConTimeout(url + '/api/tarjeta-digital/consulta?tel=' + encodeURIComponent(tel), {}, 5000)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (!res.ok) return;
+          var data = {
+            nombre: res.nombre, tel: res.tel || tel, cumple: res.cumple || '',
+            pagados: res.pagados || 0, canjeados: res.canjeados || 0,
+            hijos: res.hijos || []
+          };
+          try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+          history.replaceState({}, '', window.location.pathname);
+          render();
+          renderHijos();
+        })
+        .catch(function() {});
+    }).catch(function() {});
+  })();
+
   function cargarEstado() {
     var guardado = null;
     try { guardado = localStorage.getItem(STORAGE_KEY); } catch(e) {}
