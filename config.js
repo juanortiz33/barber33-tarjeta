@@ -1,16 +1,16 @@
 var BARBER33_CONFIG = {
   nombreNegocio: 'Barber 33',
 
-  paginasUrl: 'https://barber33.net/tarjeta/',
+  paginasUrl: 'https://tarjeta.barber33.net/',
 
   servidorLocal: 'https://barber33.net',
 
-  servidorNube: 'https://tarjeta-api.barber33.net',
+  servidorNube: 'https://barber33.net',
 
   servidorUrl: (function() {
     var h = window.location.hostname;
-    if (h && h !== 'localhost' && h.indexOf('.github.io') === -1) return window.location.origin;
     if (h === 'localhost') return window.location.origin;
+    if (h && h.indexOf('.github.io') === -1 && h.indexOf('tarjeta.') === -1 && h.indexOf('pages.dev') === -1) return window.location.origin;
     return '';
   })(),
 
@@ -45,8 +45,11 @@ var BARBER33_CONFIG = {
       }
       return fetch(url + '/api/tarjeta-digital/info', opts)
         .then(function(r) {
-          if (r.ok) { self._servidorActivo = url; return url; }
-          return intentar();
+          if (!r.ok) return intentar();
+          var ct = r.headers.get('content-type') || '';
+          if (ct.indexOf('json') === -1) return intentar();
+          self._servidorActivo = url;
+          return url;
         })
         .catch(function() { return intentar(); });
     }
