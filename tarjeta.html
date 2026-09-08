@@ -162,16 +162,6 @@
   .social-btn svg { width: 22px; height: 22px; fill: currentColor; }
   .social-btn.fb { background: #1877F2; color: #fff; }
   .social-btn.ig { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: #fff; }
-  .staff-zone { margin-top: 12px; text-align: center; }
-  .staff-link {
-    background: none; border: none; color: var(--on-surface-muted);
-    font-size: .72rem; text-decoration: underline; cursor: pointer; padding: 4px;
-  }
-  .staff-actions {
-    display: -webkit-flex; display: flex; margin-top: 10px;
-  }
-  .staff-actions .btn { -webkit-flex: 1; flex: 1; font-size: .82rem; padding: 10px; }
-  .staff-actions .btn + .btn { margin-left: 10px; }
   .demo-tag {
     display: block; text-align: center; font-size: .68rem;
     letter-spacing: .12em; text-transform: uppercase; color: #f5c518;
@@ -285,13 +275,6 @@
         </a>
       </div>
 
-      <div class="staff-zone">
-        <button class="staff-link" id="btnStaffToggle">Panel del barbero</button>
-        <div class="staff-actions" id="staffActions" style="display:none;">
-          <button class="btn btn-outline" id="btnSumar">+ Sumar 1 corte</button>
-          <button class="btn btn-outline" id="btnCanjear">Canjear gratis</button>
-        </div>
-      </div>
     </div>
 
     <div id="hijosContainer"></div>
@@ -497,7 +480,8 @@
       }
     }
 
-    document.getElementById('btnCanjear').disabled = disponibles <= 0;
+    var btnCanjear = document.getElementById('btnCanjear');
+    if (btnCanjear) btnCanjear.disabled = disponibles <= 0;
 
     return { data: data, esDemo: esDemo };
   }
@@ -578,9 +562,11 @@
     }
   }
 
-  document.getElementById('btnStaffToggle').addEventListener('click', function() {
+  var elStaffToggle = document.getElementById('btnStaffToggle');
+  if (elStaffToggle) elStaffToggle.addEventListener('click', function() {
     if (staffAutorizado) {
       var sa = document.getElementById('staffActions');
+      if (!sa) return;
       var show = sa.style.display === 'none';
       sa.style.display = show ? 'flex' : 'none';
       toggleStaffHijos(show);
@@ -590,7 +576,8 @@
     if (pin === null) return;
     if (typeof BARBER33_CONFIG !== 'undefined' && pin === BARBER33_CONFIG.staffPin) {
       staffAutorizado = true;
-      document.getElementById('staffActions').style.display = 'flex';
+      var sa2 = document.getElementById('staffActions');
+      if (sa2) sa2.style.display = 'flex';
       toggleStaffHijos(true);
     } else {
       alert('PIN incorrecto.');
@@ -659,7 +646,8 @@
     }
   }
 
-  document.getElementById('btnSumar').addEventListener('click', function() {
+  var elBtnSumar = document.getElementById('btnSumar');
+  if (elBtnSumar) elBtnSumar.addEventListener('click', function() {
     var estado = cargarEstado();
     var data = estado.data;
     if (estado.esDemo) { alert('Esta es una tarjeta de demostracion. Escanea el QR de recepcion para crear una real.'); return; }
@@ -699,7 +687,8 @@
     });
   });
 
-  document.getElementById('btnCanjear').addEventListener('click', function() {
+  var elBtnCanjear = document.getElementById('btnCanjear');
+  if (elBtnCanjear) elBtnCanjear.addEventListener('click', function() {
     var estado = cargarEstado();
     var data = estado.data;
     if (estado.esDemo) { alert('Esta es una tarjeta de demostracion. Escanea el QR de recepcion para crear una real.'); return; }
