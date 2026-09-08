@@ -1,4 +1,4 @@
-var CACHE = 'barber33-v12';
+var CACHE = 'barber33-v13';
 var ASSETS = [
   './',
   './registro.html',
