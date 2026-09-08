@@ -466,8 +466,10 @@
       var numero = (BARBER33_CONFIG.whatsappNumero || '').replace(/\D/g, '');
       document.getElementById('btnAgendar').href =
         'https://wa.me/' + numero + '?text=' + encodeURIComponent(BARBER33_CONFIG.mensajeAgendar(nombre));
-      document.getElementById('btnContacto').href =
-        'https://wa.me/' + numero + '?text=' + encodeURIComponent(BARBER33_CONFIG.mensajeContacto(nombre));
+      var btnContacto = document.getElementById('btnContacto');
+      if (btnContacto) {
+        btnContacto.href = 'https://wa.me/' + numero + '?text=' + encodeURIComponent(BARBER33_CONFIG.mensajeContacto(nombre));
+      }
     }
 
     document.getElementById('btnCanjear').disabled = disponibles <= 0;
