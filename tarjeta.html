@@ -543,6 +543,7 @@
         html += '<div class="staff-actions" id="hijoStaff' + i + '" style="display:none;">';
         html += '<button class="btn btn-outline" onclick="sumarHijo(' + i + ')">+ Sumar corte</button>';
         html += '<button class="btn btn-outline" onclick="canjearHijo(' + i + ')"' + (disp <= 0 ? ' disabled' : '') + '>Canjear gratis</button>';
+        html += '<button class="btn btn-outline" onclick="eliminarHijo(' + i + ')">Eliminar</button>';
         html += '</div>';
 
         card.innerHTML = html;
@@ -643,6 +644,36 @@
     } else {
       hijo.canjeados = c + 1;
       guardarEstado(data); render(); renderHijos();
+    }
+  }
+
+  function eliminarHijo(idx) {
+    var estado = cargarEstado();
+    var data = estado.data;
+    if (estado.esDemo) { alert('Tarjeta de demostracion.'); return; }
+    if (!data.hijos || !data.hijos[idx]) return;
+    var hijo = data.hijos[idx];
+    if (!confirm('¿Eliminar a "' + hijo.nombre + '" de esta tarjeta?')) return;
+
+    if (data.tel && typeof BARBER33_CONFIG !== 'undefined' && hijo.id) {
+      BARBER33_CONFIG.detectarServidor().then(function(url) {
+        if (!url) { alert('No se pudo conectar con el servidor.'); return; }
+        fetchConTimeout(url + '/api/tarjeta-digital/hijo-eliminar', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tel: data.tel, pin: BARBER33_CONFIG.staffPin, hijo_id: hijo.id })
+        }, 4000)
+        .then(function(r) { return r.json(); })
+        .then(function(res) {
+          if (res.ok) {
+            data.hijos.splice(idx, 1);
+            guardarEstado(data); render(); renderHijos();
+          } else {
+            alert(res.msg || 'No se pudo eliminar.');
+          }
+        })
+        .catch(function() { alert('No se pudo conectar con el servidor.'); });
+      }).catch(function() { alert('No se pudo conectar con el servidor.'); });
     }
   }
 
